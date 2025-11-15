@@ -36,15 +36,27 @@ const HomePage = () => {
       </div>
 
       <div className="bg-muted/50 rounded-lg border p-6">
-        <h3 className="mb-2 font-semibold">Getting Started</h3>
-        <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
-          <li>Use the sidebar navigation to explore different sections</li>
-          <li>
-            Toggle between English and Russian languages in the sidebar footer
-          </li>
-          <li>Press Ctrl+B (or Cmd+B on Mac) to toggle the sidebar</li>
-          <li>The sidebar is collapsible and responsive on mobile devices</li>
-        </ul>
+        <h3 className="mb-2 font-semibold">How It Works</h3>
+        <div className="space-y-4 text-sm">
+          <div>
+            <h4 className="font-semibold mb-1">For Sellers:</h4>
+            <ul className="text-muted-foreground list-inside list-disc space-y-1">
+              <li>Submit your gift card details including code and PIN</li>
+              <li>Admin reviews and purchases your card</li>
+              <li>Funds are added to your balance instantly</li>
+              <li>Request payout to your USDT wallet anytime</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-1">For Buyers:</h4>
+            <ul className="text-muted-foreground list-inside list-disc space-y-1">
+              <li>Browse available gift cards from verified sellers</li>
+              <li>Purchase cards at discounted prices</li>
+              <li>Receive card details immediately after purchase</li>
+              <li>All transactions are secured and protected</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

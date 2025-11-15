@@ -1,5 +1,5 @@
-import { getAllPendingEgifts } from "@/lib/actions/egift.actions";
 import { EgiftsManagement } from "@/components/egifts-management";
+import { getAllPendingEgifts } from "@/lib/actions/egift.actions";
 
 export default async function EgiftsManagementPage() {
   const egiftsResult = await getAllPendingEgifts();

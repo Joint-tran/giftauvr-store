@@ -102,8 +102,8 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
 
   const supportItems = [
     {
-      title: t.help,
-      url: "/help",
+      title: "Policies",
+      url: "/policies",
       icon: HelpCircle,
     },
   ];

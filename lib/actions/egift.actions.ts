@@ -166,12 +166,10 @@ export async function approveEgift(egiftId: string) {
   try {
     const mongoose = await connectToDatabase();
     const db = mongoose.connection.db;
-
     if (!db) throw new Error("Database connection failed");
 
     const egiftsCollection = db.collection("egifts");
     const usersCollection = db.collection("user");
-
     // Get egift details
     const egift = await egiftsCollection.findOne({
       _id: new ObjectId(egiftId),
@@ -203,8 +201,9 @@ export async function approveEgift(egiftId: string) {
 
     // Check if user exists
     console.log("Looking for seller with ID:", egift.sellerId);
-    const seller = await usersCollection.findOne({ id: egift.sellerId });
-    console.log("Seller found:", seller ? "Yes" : "No");
+    const seller = await usersCollection.findOne({
+      _id: new ObjectId(egift.sellerId),
+    });
 
     if (!seller) {
       // Rollback egift status if user not found
@@ -227,7 +226,7 @@ export async function approveEgift(egiftId: string) {
     // Add selling price to seller's balance
     // Use $inc to increment, it will initialize to 0 if field doesn't exist
     const userResult = await usersCollection.updateOne(
-      { id: egift.sellerId },
+      { _id: new ObjectId(egift.sellerId) },
       {
         $inc: {
           balance: egift.sellingPrice,
