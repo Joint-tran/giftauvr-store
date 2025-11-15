@@ -10,6 +10,7 @@ import {
   Shield,
   Wallet,
   ShoppingBag,
+  ArrowDownToLine,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -69,6 +70,11 @@ export function AdminSidebar() {
       title: "Withdrawals",
       url: "/admin/withdrawals",
       icon: CreditCard,
+    },
+    {
+      title: "Payouts",
+      url: "/admin/payouts",
+      icon: ArrowDownToLine,
     },
     {
       title: "Settings",

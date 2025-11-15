@@ -2,11 +2,9 @@
 
 import {
   Home,
-  ShoppingCart,
   CreditCard,
   Package,
   Wallet,
-  Settings,
   User,
   HelpCircle,
   LogOut,
@@ -62,11 +60,6 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
       url: "/",
       icon: Home,
     },
-    {
-      title: t.marketplace,
-      url: "/marketplace",
-      icon: ShoppingCart,
-    },
   ];
 
   // Conditional items based on account type
@@ -96,24 +89,14 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
 
   const accountItems = [
     {
-      title: t.myOrders,
-      url: "/orders",
-      icon: Package,
-    },
-    {
-      title: t.myWallet,
-      url: "/my-wallet",
-      icon: Wallet,
-    },
-    {
       title: t.profile,
-      url: "/profile",
+      url: "/my-profile",
       icon: User,
     },
     {
-      title: t.settings,
-      url: "/settings",
-      icon: Settings,
+      title: "Payout Request",
+      url: "/payout-request",
+      icon: Wallet,
     },
   ];
 

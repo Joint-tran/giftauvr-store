@@ -201,7 +201,31 @@ export async function approveEgift(egiftId: string) {
       return { success: false, error: "Cannot update gift card" };
     }
 
+    // Check if user exists
+    console.log("Looking for seller with ID:", egift.sellerId);
+    const seller = await usersCollection.findOne({ id: egift.sellerId });
+    console.log("Seller found:", seller ? "Yes" : "No");
+
+    if (!seller) {
+      // Rollback egift status if user not found
+      await egiftsCollection.updateOne(
+        { _id: new ObjectId(egiftId) },
+        {
+          $set: {
+            status: "pending",
+            updatedAt: new Date(),
+          },
+          $unset: { soldAt: "" },
+        }
+      );
+      return {
+        success: false,
+        error: `Seller not found with ID: ${egift.sellerId}. Please check if the seller account still exists.`,
+      };
+    }
+
     // Add selling price to seller's balance
+    // Use $inc to increment, it will initialize to 0 if field doesn't exist
     const userResult = await usersCollection.updateOne(
       { id: egift.sellerId },
       {
@@ -214,7 +238,8 @@ export async function approveEgift(egiftId: string) {
       }
     );
 
-    if (userResult.modifiedCount === 0) {
+    // Check matchedCount instead of modifiedCount for $inc operations
+    if (userResult.matchedCount === 0) {
       // Rollback egift status if user update fails
       await egiftsCollection.updateOne(
         { _id: new ObjectId(egiftId) },
@@ -226,6 +251,7 @@ export async function approveEgift(egiftId: string) {
           $unset: { soldAt: "" },
         }
       );
+      console.error("Failed to update balance for user:", egift.sellerId);
       return { success: false, error: "Cannot update seller balance" };
     }
 
