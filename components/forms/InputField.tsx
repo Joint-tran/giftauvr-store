@@ -13,6 +13,9 @@ const InputField = ({
   validation,
   disabled,
   value,
+  onPaste,
+  onCopy,
+  onCut,
 }: FormInputProps) => {
   return (
     <div className="space-y-2">
@@ -25,6 +28,9 @@ const InputField = ({
         placeholder={placeholder}
         disabled={disabled}
         value={value}
+        onPaste={onPaste}
+        onCopy={onCopy}
+        onCut={onCut}
         className={cn("form-input", {
           "opacity-50 cursor-not-allowed": disabled,
         })}

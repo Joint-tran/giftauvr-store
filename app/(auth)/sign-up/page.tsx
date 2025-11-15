@@ -112,24 +112,33 @@ const SignUp = () => {
         {/* Conditional fields for Seller account */}
         {accountType === "seller" && (
           <>
-            <InputField
-              name="usdtWallet"
-              label="USDT Wallet Address"
-              placeholder="Enter your USDT wallet address"
-              register={register}
-              error={errors.usdtWallet}
-              validation={{
-                required: "USDT wallet address is required for sellers",
-                minLength: {
-                  value: 26,
-                  message: "Wallet address must be at least 26 characters",
-                },
-                pattern: {
-                  value: /^[a-zA-Z0-9]+$/,
-                  message: "Invalid wallet address format",
-                },
-              }}
-            />
+            <div className="space-y-2">
+              <InputField
+                name="usdtWallet"
+                label="USDT Wallet Address"
+                placeholder="Enter your USDT wallet address (typing only)"
+                register={register}
+                error={errors.usdtWallet}
+                validation={{
+                  required: "USDT wallet address is required for sellers",
+                  minLength: {
+                    value: 26,
+                    message: "Wallet address must be at least 26 characters",
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z0-9]+$/,
+                    message: "Invalid wallet address format",
+                  },
+                }}
+                onPaste={(e: React.ClipboardEvent) => e.preventDefault()}
+                onCopy={(e: React.ClipboardEvent) => e.preventDefault()}
+                onCut={(e: React.ClipboardEvent) => e.preventDefault()}
+              />
+              <p className="text-xs text-yellow-600 dark:text-yellow-500">
+                ⚠️ Copy/paste disabled. Please type your wallet address manually
+                to ensure accuracy.
+              </p>
+            </div>
 
             <SelectField
               name="network"

@@ -32,6 +32,9 @@ declare global {
     validation?: RegisterOptions;
     disabled?: boolean;
     value?: string;
+    onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+    onCopy?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+    onCut?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   };
 
   type Option = {
