@@ -168,17 +168,17 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
               <SidebarGroupContent>
                 <div className="flex items-center gap-2 rounded-lg border border-dashed border-sidebar-border p-3">
                   <DollarSign className="size-4 text-muted-foreground" />
-                  <span className="text-md text-muted-foreground hover:text-foreground transition-colors">
+                  <span className="text-xl font-semibold text-primary">
                     {user.balance}
                   </span>
                   <Link
-                    href={"/withdrawal"}
+                    href={"/payout-request"}
                     className={buttonVariants({
                       variant: "default",
                       className: "text-xs ml-auto",
                     })}
                   >
-                    withdrawal
+                    Payout
                   </Link>
                 </div>
               </SidebarGroupContent>

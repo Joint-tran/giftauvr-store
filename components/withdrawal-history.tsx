@@ -8,6 +8,8 @@ import {
   CheckCircle,
   XCircle,
   ArrowDownToLine,
+  Wallet,
+  Globe,
 } from "lucide-react";
 
 interface WithdrawalHistoryProps {
@@ -88,13 +90,73 @@ export function WithdrawalHistory({ withdrawals }: WithdrawalHistoryProps) {
                     </div>
                   </div>
 
-                  <div className="text-xs space-y-1">
+                  <div className="text-xs space-y-2">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Date:</span>
                       <span>
                         {new Date(withdrawal.createdAt).toLocaleDateString()}
                       </span>
                     </div>
+
+                    {/* Wallet Address - Full Display */}
+                    {withdrawal.walletAddress && (
+                      <div className="p-2 bg-muted/50 rounded border">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Wallet className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-muted-foreground font-medium">
+                            Wallet Address:
+                          </span>
+                        </div>
+                        <div className="font-mono text-xs break-all pl-5">
+                          {withdrawal.walletAddress}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Network - Full Display */}
+                    {withdrawal.network && (
+                      <div className="flex items-center gap-2 pl-2">
+                        <Globe className="h-3 w-3 text-muted-foreground" />
+                        <span className="text-muted-foreground">Network:</span>
+                        <Badge variant="outline" className="text-xs">
+                          {withdrawal.network}
+                        </Badge>
+                      </div>
+                    )}
+
+                    {/* Transaction Hash if completed */}
+                    {withdrawal.transactionHash && (
+                      <div className="p-2 bg-green-500/10 rounded border border-green-500/20">
+                        <div className="text-muted-foreground font-medium mb-1">
+                          Transaction Hash:
+                        </div>
+                        <div className="font-mono text-xs break-all text-green-700 dark:text-green-400">
+                          {withdrawal.transactionHash}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Rejection Reason if rejected */}
+                    {withdrawal.rejectionReason && (
+                      <div className="p-2 bg-red-500/10 rounded border border-red-500/20">
+                        <div className="text-muted-foreground font-medium mb-1">
+                          Rejection Reason:
+                        </div>
+                        <div className="text-xs text-red-700 dark:text-red-400">
+                          {withdrawal.rejectionReason}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Notes if available */}
+                    {withdrawal.notes && (
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Notes:</span>
+                        <span className="text-right max-w-[60%]">
+                          {withdrawal.notes}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               );

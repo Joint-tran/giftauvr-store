@@ -93,15 +93,21 @@ const SignUp = () => {
           required
         />
 
-        <SelectField
-          name="accountType"
-          label="Account Type"
-          placeholder="Select your account type"
-          options={ACCOUNT_TYPE}
-          control={control}
-          error={errors.accountType}
-          required
-        />
+        <div className="space-y-2">
+          <SelectField
+            name="accountType"
+            label="Account Type"
+            placeholder="Select account type"
+            options={ACCOUNT_TYPE.filter((type) => type.value !== "buyer")}
+            control={control}
+            error={errors.accountType}
+            required
+          />
+          <p className="text-xs text-muted-foreground">
+            Note: Buyer accounts are currently disabled. Only seller accounts
+            can be created.
+          </p>
+        </div>
 
         {/* Conditional fields for Seller account */}
         {accountType === "seller" && (
@@ -135,13 +141,25 @@ const SignUp = () => {
               required
             />
 
+            <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4 text-sm">
+              <p className="font-semibold text-red-500 mb-2">
+                🔒 Important Security Notice
+              </p>
+              <p className="text-muted-foreground">
+                <strong className="text-red-400">
+                  Your wallet address and network cannot be changed once set.
+                </strong>{" "}
+                Please double-check before submitting.
+              </p>
+            </div>
+
             <div className="rounded-lg border border-yellow-500/50 bg-yellow-500/10 p-4 text-sm">
               <p className="font-semibold text-yellow-500 mb-2">
                 ⚠️ Deposit Required
               </p>
               <p className="text-muted-foreground">
                 Sellers must deposit{" "}
-                <span className="font-bold text-white">$200 USDT</span> to
+                <span className="font-bold text-white">$300 USDT</span> to
                 activate their account. After registration, admin will review
                 and approve your account.
               </p>

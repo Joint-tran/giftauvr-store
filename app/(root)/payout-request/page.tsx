@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { PayoutRequestForm } from "@/components/payout-request-form";
 import { MyPayoutRequests } from "@/components/my-payout-requests";
+import { DepositPaywall } from "@/components/deposit-paywall";
 import { getMyPayoutRequests } from "@/lib/actions/payout.actions";
 
 export default async function PayoutRequestPage() {
@@ -21,10 +22,27 @@ export default async function PayoutRequestPage() {
     balance: (session.user as any).balance || 0,
     usdtWallet: (session.user as any).usdtWallet || "",
     network: (session.user as any).network || "",
+    approvalStatus: (session.user as any).approvalStatus || "pending",
   };
 
   const payoutsResult = await getMyPayoutRequests();
   const myPayouts = payoutsResult.success ? payoutsResult.data : [];
+
+  // Show deposit paywall for pending users
+  if (user.approvalStatus === "pending") {
+    return (
+      <div className="p-6 space-y-6 max-w-7xl mx-auto">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Payout Request</h1>
+          <p className="text-muted-foreground mt-2">
+            Request withdrawal from your balance
+          </p>
+        </div>
+
+        <DepositPaywall user={user} />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">

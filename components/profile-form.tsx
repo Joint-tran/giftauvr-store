@@ -259,13 +259,13 @@ export function ProfileForm({ user }: ProfileFormProps) {
               )}
             </div>
 
-            {/* Network */}
+            {/* Withdrawal Network */}
             <div className="space-y-2">
               <Label htmlFor="network" className="flex items-center gap-2">
                 <Globe className="h-4 w-4" />
                 Withdrawal Network
               </Label>
-              {editMode ? (
+              {editMode && !user.network ? (
                 <Select
                   value={formData.network}
                   onValueChange={(value) =>
@@ -284,7 +284,12 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   </SelectContent>
                 </Select>
               ) : (
-                <div className="font-semibold">{user.network || "Not set"}</div>
+                <div className="text-sm">{user.network || "Not set"}</div>
+              )}
+              {user.network && (
+                <p className="text-xs text-yellow-600 dark:text-yellow-500">
+                  ⚠️ Network cannot be changed once set for security reasons
+                </p>
               )}
             </div>
 
@@ -294,7 +299,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                 <Wallet className="h-4 w-4" />
                 USDT Wallet Address
               </Label>
-              {editMode ? (
+              {editMode && !user.usdtWallet ? (
                 <Input
                   id="usdtWallet"
                   type="text"
@@ -314,9 +319,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     : "Not set"}
                 </div>
               )}
-              {!editMode && user.usdtWallet && (
+              {user.usdtWallet && (
+                <p className="text-xs text-yellow-600 dark:text-yellow-500">
+                  ⚠️ Wallet address cannot be changed once set for security
+                  reasons
+                </p>
+              )}
+              {!user.usdtWallet && !editMode && (
                 <p className="text-xs text-muted-foreground">
-                  Only showing first 6 and last 4 characters for security
+                  Click Edit to set your wallet address (can only be set once)
                 </p>
               )}
             </div>

@@ -68,7 +68,7 @@ export function MyPayoutRequests({ payouts }: MyPayoutRequestsProps) {
                     <div className="flex items-center gap-2">
                       <DollarSign className="h-5 w-5 text-primary" />
                       <span className="text-2xl font-bold text-primary">
-                        ${payout.amount.toFixed(2)}
+                        {payout.amount.toFixed(2)}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -80,11 +80,10 @@ export function MyPayoutRequests({ payouts }: MyPayoutRequestsProps) {
                   </div>
 
                   <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Wallet:</span>
-                      <span className="font-mono font-semibold">
-                        {payout.walletAddress.slice(0, 6)}...
-                        {payout.walletAddress.slice(-4)}
+                      <span className="font-mono font-semibold text-[9px] truncate w-[200px]">
+                        {payout.walletAddress}
                       </span>
                     </div>
                     <div className="flex justify-between">

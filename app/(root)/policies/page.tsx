@@ -59,7 +59,12 @@ const PoliciesPage = () => {
                 <li>Provide accurate card value and expiry information</li>
                 <li>Selling stolen or fraudulent cards is prohibited</li>
                 <li>Funds are added to balance after admin approval</li>
-                <li>Minimum payout request: $10 USD</li>
+                <li>
+                  <strong>Minimum payout request: $2,000 USD</strong>
+                </li>
+                <li>
+                  <strong>Only 1 payout allowed per calendar month</strong>
+                </li>
               </ul>
             </div>
             <div>
@@ -91,7 +96,12 @@ const PoliciesPage = () => {
                 <li>
                   You must set up your wallet address before requesting payout
                 </li>
-                <li>Minimum payout amount: $10 USD equivalent</li>
+                <li>
+                  <strong>Minimum payout amount: $2,000 USD</strong>
+                </li>
+                <li>
+                  <strong>Only 1 payout request allowed per month</strong>
+                </li>
                 <li>Payout fees may apply depending on network</li>
               </ul>
             </div>
@@ -158,6 +168,12 @@ const PoliciesPage = () => {
                 <li>All transactions are monitored for suspicious activity</li>
                 <li>Admin reviews all gift card submissions</li>
                 <li>Wallet addresses are masked for security</li>
+                <li>
+                  <strong>
+                    Wallet address and network can only be set once and cannot
+                    be changed
+                  </strong>
+                </li>
                 <li>Two-factor authentication available (coming soon)</li>
               </ul>
             </div>

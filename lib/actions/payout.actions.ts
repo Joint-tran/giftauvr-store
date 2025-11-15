@@ -27,15 +27,53 @@ export async function submitPayoutRequest(data: {
     const payoutsCollection = db.collection("payouts");
 
     // Get user info
-    const user = await usersCollection.findOne({ id: session.user.id });
+    const user = await usersCollection.findOne({
+      _id: new ObjectId(session.user.id),
+    });
 
     if (!user) {
       return { success: false, error: "User not found" };
     }
 
+    // Check minimum payout amount ($2000)
+    if (data.amount < 2000) {
+      return {
+        success: false,
+        error: "Minimum payout amount is $2,000 USD",
+      };
+    }
+
     // Check balance
     if (!user.balance || user.balance < data.amount) {
       return { success: false, error: "Insufficient balance" };
+    }
+
+    // Check if user has already made a payout this month
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59
+    );
+
+    const existingPayoutThisMonth = await payoutsCollection.findOne({
+      userId: session.user.id,
+      createdAt: {
+        $gte: startOfMonth,
+        $lte: endOfMonth,
+      },
+    });
+
+    if (existingPayoutThisMonth) {
+      return {
+        success: false,
+        error:
+          "You can only request one payout per month. Please wait until next month.",
+      };
     }
 
     // Check wallet info
@@ -48,7 +86,7 @@ export async function submitPayoutRequest(data: {
 
     // Deduct balance
     const balanceResult = await usersCollection.updateOne(
-      { id: session.user.id },
+      { _id: new ObjectId(session.user.id) },
       {
         $inc: { balance: -data.amount },
         $set: { updatedAt: new Date() },

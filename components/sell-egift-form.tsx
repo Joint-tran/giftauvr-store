@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import {
   Command,
   CommandEmpty,
@@ -22,10 +23,22 @@ import {
 import { submitEgift } from "@/lib/actions/egift.actions";
 import { CATEGORIES, searchCategories } from "@/lib/categories";
 import { useRouter } from "next/navigation";
-import { ShoppingBag, Loader2, Check, ChevronsUpDown } from "lucide-react";
+import {
+  ShoppingBag,
+  Loader2,
+  Check,
+  ChevronsUpDown,
+  AlertCircle,
+  Lock,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-export function SellEgiftForm() {
+interface SellEgiftFormProps {
+  approvalStatus: string;
+}
+
+export function SellEgiftForm({ approvalStatus }: SellEgiftFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -108,15 +121,47 @@ export function SellEgiftForm() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const isPending = approvalStatus === "pending";
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <ShoppingBag className="h-5 w-5" />
           Submit Gift Card
+          {isPending && (
+            <Badge variant="secondary" className="ml-auto">
+              Pending Approval
+            </Badge>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {isPending && (
+          <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" />
+              <div className="space-y-2 flex-1">
+                <p className="font-semibold text-yellow-700 dark:text-yellow-500">
+                  Account Approval Required
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Your account is currently pending approval. You must complete
+                  the $300 USDT deposit and wait for admin approval before you
+                  can list gift cards for sale.
+                </p>
+                <Link
+                  href="/payout-request"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-yellow-700 dark:text-yellow-500 hover:underline"
+                >
+                  <Lock className="h-4 w-4" />
+                  View Deposit Instructions
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Category Selection */}
           <div className="space-y-2">
@@ -130,6 +175,7 @@ export function SellEgiftForm() {
                   role="combobox"
                   aria-expanded={open}
                   className="w-full justify-between font-mono"
+                  disabled={isPending}
                 >
                   {selectedCategory
                     ? selectedCategory.id
@@ -192,6 +238,7 @@ export function SellEgiftForm() {
               value={formData.cardCode}
               onChange={(e) => handleChange("cardCode", e.target.value)}
               required
+              disabled={isPending}
             />
           </div>
 
@@ -204,6 +251,7 @@ export function SellEgiftForm() {
               placeholder="Enter PIN..."
               value={formData.pin}
               onChange={(e) => handleChange("pin", e.target.value)}
+              disabled={isPending}
             />
           </div>
 
@@ -222,6 +270,7 @@ export function SellEgiftForm() {
                 value={formData.value}
                 onChange={(e) => handleChange("value", e.target.value)}
                 required
+                disabled={isPending}
               />
             </div>
 
@@ -238,6 +287,7 @@ export function SellEgiftForm() {
                 value={formData.sellingPrice}
                 onChange={(e) => handleChange("sellingPrice", e.target.value)}
                 required
+                disabled={isPending}
               />
             </div>
           </div>
@@ -266,6 +316,7 @@ export function SellEgiftForm() {
               type="date"
               value={formData.expiryDate}
               onChange={(e) => handleChange("expiryDate", e.target.value)}
+              disabled={isPending}
             />
           </div>
 
@@ -278,21 +329,34 @@ export function SellEgiftForm() {
               value={formData.notes}
               onChange={(e) => handleChange("notes", e.target.value)}
               rows={3}
+              disabled={isPending}
             />
           </div>
 
-          <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-            <p className="text-sm text-yellow-700 dark:text-yellow-400">
-              ⚠️ Your gift card will be reviewed by our team before being listed
-              for sale.
-            </p>
-          </div>
+          {!isPending && (
+            <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+              <p className="text-sm text-yellow-700 dark:text-yellow-400">
+                ⚠️ Your gift card will be reviewed by our team before being
+                listed for sale.
+              </p>
+            </div>
+          )}
 
-          <Button type="submit" disabled={loading} className="w-full" size="lg">
+          <Button
+            type="submit"
+            disabled={loading || isPending}
+            className="w-full"
+            size="lg"
+          >
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Submitting...
+              </>
+            ) : isPending ? (
+              <>
+                <Lock className="mr-2 h-4 w-4" />
+                Account Approval Required
               </>
             ) : (
               <>

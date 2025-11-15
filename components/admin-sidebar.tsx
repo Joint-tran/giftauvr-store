@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   Users,
   CheckCircle,
-  CreditCard,
   Settings,
   LogOut,
   Shield,
@@ -65,11 +64,6 @@ export function AdminSidebar() {
       title: "Wallet",
       url: "/admin/wallet",
       icon: Wallet,
-    },
-    {
-      title: "Withdrawals",
-      url: "/admin/withdrawals",
-      icon: CreditCard,
     },
     {
       title: "Payouts",

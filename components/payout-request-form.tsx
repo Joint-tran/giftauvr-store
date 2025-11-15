@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { submitPayoutRequest } from "@/lib/actions/payout.actions";
 import { useRouter } from "next/navigation";
 import {
   DollarSign,
@@ -16,6 +15,7 @@ import {
   AlertCircle,
   Globe,
 } from "lucide-react";
+import { submitPayoutRequest } from "@/lib/actions/payout.actions";
 
 interface PayoutRequestFormProps {
   user: {
@@ -46,6 +46,11 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
 
     if (!payoutAmount || payoutAmount <= 0) {
       alert("Please enter a valid amount");
+      return;
+    }
+
+    if (payoutAmount < 2000) {
+      alert("Minimum payout amount is $2,000 USD");
       return;
     }
 
@@ -140,16 +145,16 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
               id="amount"
               type="number"
               step="0.01"
-              min="1"
+              min="2000"
               max={user.balance}
-              placeholder="Enter amount..."
+              placeholder="Enter amount (Min: $2,000)..."
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
               disabled={!user.usdtWallet || !user.network}
             />
             <p className="text-xs text-muted-foreground">
-              Maximum: ${user.balance.toFixed(2)}
+              Minimum: $2,000 • Maximum: ${user.balance.toFixed(2)}
             </p>
           </div>
 
@@ -166,11 +171,15 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
             />
           </div>
 
-          <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
+          <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg space-y-2">
             <p className="text-sm text-blue-700 dark:text-blue-400">
-              ℹ️ Your payout request will be reviewed by our team. Processing
-              time is typically 24-48 hours.
+              ℹ️ <strong>Important:</strong>
             </p>
+            <ul className="text-xs text-blue-600 dark:text-blue-400 list-disc list-inside space-y-1">
+              <li>Minimum payout amount: $2,000 USD</li>
+              <li>Only 1 payout request allowed per month</li>
+              <li>Processing time: 24-48 hours</li>
+            </ul>
           </div>
 
           <Button

@@ -44,7 +44,7 @@ const HomePage = () => {
               <li>Submit your gift card details including code and PIN</li>
               <li>Admin reviews and purchases your card</li>
               <li>Funds are added to your balance instantly</li>
-              <li>Request payout to your USDT wallet anytime</li>
+              <li>Request payout (min $2,000) once per month to USDT wallet</li>
             </ul>
           </div>
           <div>

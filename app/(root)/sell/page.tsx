@@ -19,6 +19,8 @@ export default async function SellPage() {
     redirect("/");
   }
 
+  const approvalStatus = (session.user as any).approvalStatus || "pending";
+
   const egiftsResult = await getMyEgifts();
   const myEgifts = egiftsResult.success ? egiftsResult.data : [];
 
@@ -32,7 +34,7 @@ export default async function SellPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <SellEgiftForm />
+        <SellEgiftForm approvalStatus={approvalStatus} />
         <MyEgiftsList egifts={myEgifts} />
       </div>
     </div>

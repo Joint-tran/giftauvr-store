@@ -92,7 +92,7 @@ export async function approveUser(userId: string) {
           updatedAt: new Date(),
         },
         $inc: {
-          balance: 200,
+          balance: 300,
         },
       }
     );
@@ -100,7 +100,7 @@ export async function approveUser(userId: string) {
     if (result.modifiedCount > 0) {
       return {
         success: true,
-        message: "Đã phê duyệt user và cộng 200 USDT vào balance",
+        message: "Đã phê duyệt user và cộng 300 USDT vào balance",
       };
     }
 
