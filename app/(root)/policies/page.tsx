@@ -1,6 +1,14 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertCircle, Shield, DollarSign, FileText, Ban } from "lucide-react";
+import {
+  AlertCircle,
+  Shield,
+  DollarSign,
+  FileText,
+  Ban,
+  MessageCircle,
+} from "lucide-react";
+import Image from "next/image";
 
 const PoliciesPage = () => {
   return (
@@ -180,27 +188,86 @@ const PoliciesPage = () => {
           </CardContent>
         </Card>
 
-        {/* Contact & Disputes */}
+        {/* Contact Support */}
         <Card>
           <CardHeader>
-            <CardTitle>Contact & Dispute Resolution</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5" />
+              Contact Support
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm">
-            <p className="text-muted-foreground">
-              If you have any questions about these policies or need to report
-              an issue, please contact our support team through the admin panel
-              or your account manager.
-            </p>
-            <div className="bg-muted/50 border rounded-lg p-4">
-              <p className="font-semibold mb-2">Dispute Resolution Process:</p>
-              <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-                <li>Report the issue within 24 hours of the transaction</li>
-                <li>Provide all relevant evidence and documentation</li>
-                <li>Admin will review and investigate the claim</li>
-                <li>
-                  Resolution will be communicated within 3-5 business days
-                </li>
-              </ol>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                For support, questions, or issues, please contact us via Signal
+                app. Our support team is available 24/7 to assist you.
+              </p>
+
+              {/* Signal Contact Section */}
+              <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-2 border-blue-500/20 rounded-xl p-6 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-blue-500/20 p-3 rounded-lg">
+                    <MessageCircle className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">Contact us on Signal</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Secure & Private Messaging
+                    </p>
+                  </div>
+                </div>
+
+                {/* Signal Image */}
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border-2 border-white/10 shadow-lg">
+                  <Image
+                    src="/assets/images/signal.jpg"
+                    alt="Signal App Contact Information"
+                    fill
+                    className="object-contain bg-muted"
+                    priority
+                  />
+                </div>
+
+                <div className="bg-white/50 dark:bg-black/30 rounded-lg p-4 space-y-2">
+                  <p className="font-semibold text-sm">How to contact us:</p>
+                  <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
+                    <li>Install Signal app on your device</li>
+                    <li>
+                      Scan the QR code above or use the contact information
+                    </li>
+                    <li>Start a secure conversation with our support team</li>
+                    <li>Describe your issue or question in detail</li>
+                  </ol>
+                </div>
+
+                <div className="flex items-center gap-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                  <AlertCircle className="h-4 w-4 text-yellow-600" />
+                  <p className="text-xs text-muted-foreground">
+                    <strong>Important:</strong> Only contact us through Signal
+                    for your security. We will never ask for your password or
+                    private keys.
+                  </p>
+                </div>
+              </div>
+
+              {/* Dispute Resolution */}
+              <div className="bg-muted/50 border rounded-lg p-4 space-y-3">
+                <p className="font-semibold text-sm">
+                  Dispute Resolution Process:
+                </p>
+                <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
+                  <li>
+                    Report the issue via Signal within 24 hours of the
+                    transaction
+                  </li>
+                  <li>Provide all relevant evidence and documentation</li>
+                  <li>Admin will review and investigate the claim</li>
+                  <li>
+                    Resolution will be communicated within 3-5 business days
+                  </li>
+                  <li>All disputes are handled through Signal for security</li>
+                </ol>
+              </div>
             </div>
           </CardContent>
         </Card>

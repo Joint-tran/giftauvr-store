@@ -12,8 +12,11 @@ import {
   Clock,
   DollarSign,
   Shield,
+  MessageCircle,
 } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface DepositPaywallProps {
   user: {
@@ -187,12 +190,50 @@ export function DepositPaywall({ user }: DepositPaywallProps) {
               <li>You can start trading and requesting payouts</li>
             </ol>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Support */}
-          <div className="text-center p-4 bg-muted/50 rounded-lg">
-            <p className="text-sm text-muted-foreground">
-              Having issues? Contact admin support for assistance.
-            </p>
+      {/* Contact Support via Signal */}
+      <Card className="border-blue-500/20 bg-gradient-to-br from-blue-500/5 to-purple-500/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+            <MessageCircle className="h-5 w-5" />
+            Need Help? Contact Support
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Have questions about the deposit process? Our support team is
+            available 24/7 via Signal.
+          </p>
+
+          {/* Signal Image */}
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden border-2 border-blue-500/20 shadow-lg">
+            <Image
+              src="/assets/images/signal.jpg"
+              alt="Contact Support on Signal"
+              fill
+              className="object-contain bg-muted"
+            />
+          </div>
+
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 space-y-2">
+            <p className="font-semibold text-sm">How to contact us:</p>
+            <ol className="list-decimal list-inside space-y-1 text-xs text-muted-foreground">
+              <li>Install Signal app on your device</li>
+              <li>Scan the QR code above or use the contact information</li>
+              <li>Message us about your deposit or account approval</li>
+            </ol>
+          </div>
+
+          <div className="text-center">
+            <Link
+              href="/policies"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
+            >
+              View full contact information & policies
+              <MessageCircle className="h-3 w-3" />
+            </Link>
           </div>
         </CardContent>
       </Card>
