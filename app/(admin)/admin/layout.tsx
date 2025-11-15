@@ -4,11 +4,24 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { checkAdminAuth } from "@/lib/actions/admin.actions";
+import { auth } from "@/lib/better-auth/auth";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import React from "react";
 
+const ADMIN_EMAIL = "admin@gmail.com";
+
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
+  // Check authentication
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  // Redirect if not authenticated or not admin email
+  if (!session?.user || session.user.email !== ADMIN_EMAIL) {
+    redirect("/");
+  }
+
   return (
     <SidebarProvider>
       <AdminSidebar />
