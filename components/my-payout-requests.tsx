@@ -104,17 +104,6 @@ export function MyPayoutRequests({ payouts }: MyPayoutRequestsProps) {
                     </div>
                   )}
 
-                  {payout.status === "completed" && payout.transactionHash && (
-                    <div className="text-xs bg-green-50 dark:bg-green-950 p-2 rounded">
-                      <strong className="text-green-700 dark:text-green-400">
-                        Transaction Hash:
-                      </strong>
-                      <div className="font-mono mt-1 break-all">
-                        {payout.transactionHash}
-                      </div>
-                    </div>
-                  )}
-
                   {payout.status === "rejected" && payout.rejectionReason && (
                     <div className="text-xs text-red-600 bg-red-50 dark:bg-red-950 p-2 rounded">
                       <strong>Rejection Reason:</strong>{" "}

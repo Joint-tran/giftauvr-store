@@ -298,6 +298,171 @@ export async function rejectEgift(egiftId: string, reason?: string) {
   }
 }
 
+// Admin: Bulk approve egifts
+export async function bulkApproveEgifts(egiftIds: string[]) {
+  try {
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+    if (!db) throw new Error("Database connection failed");
+
+    const egiftsCollection = db.collection("egifts");
+    const usersCollection = db.collection("user");
+
+    let successCount = 0;
+    let failCount = 0;
+    const errors: string[] = [];
+
+    // Process each egift
+    for (const egiftId of egiftIds) {
+      try {
+        // Get egift details
+        const egift = await egiftsCollection.findOne({
+          _id: new ObjectId(egiftId),
+        });
+
+        if (!egift) {
+          errors.push(`Gift card ${egiftId} not found`);
+          failCount++;
+          continue;
+        }
+
+        if (egift.status !== "pending") {
+          errors.push(`Gift card ${egiftId} already processed`);
+          failCount++;
+          continue;
+        }
+
+        // Update egift status to sold
+        const egiftResult = await egiftsCollection.updateOne(
+          { _id: new ObjectId(egiftId) },
+          {
+            $set: {
+              status: "sold",
+              soldAt: new Date(),
+              updatedAt: new Date(),
+            },
+          }
+        );
+
+        if (egiftResult.modifiedCount === 0) {
+          errors.push(`Cannot update gift card ${egiftId}`);
+          failCount++;
+          continue;
+        }
+
+        // Check if seller exists
+        const seller = await usersCollection.findOne({
+          _id: new ObjectId(egift.sellerId),
+        });
+
+        if (!seller) {
+          // Rollback egift status
+          await egiftsCollection.updateOne(
+            { _id: new ObjectId(egiftId) },
+            {
+              $set: {
+                status: "pending",
+                updatedAt: new Date(),
+              },
+              $unset: { soldAt: "" },
+            }
+          );
+          errors.push(`Seller not found for gift card ${egiftId}`);
+          failCount++;
+          continue;
+        }
+
+        // Add selling price to seller's balance
+        const userResult = await usersCollection.updateOne(
+          { _id: new ObjectId(egift.sellerId) },
+          {
+            $inc: {
+              balance: egift.sellingPrice,
+            },
+            $set: {
+              updatedAt: new Date(),
+            },
+          }
+        );
+
+        if (userResult.matchedCount === 0) {
+          // Rollback egift status
+          await egiftsCollection.updateOne(
+            { _id: new ObjectId(egiftId) },
+            {
+              $set: {
+                status: "pending",
+                updatedAt: new Date(),
+              },
+              $unset: { soldAt: "" },
+            }
+          );
+          errors.push(`Cannot update seller balance for gift card ${egiftId}`);
+          failCount++;
+          continue;
+        }
+
+        successCount++;
+      } catch (error) {
+        console.error(`Failed to approve egift ${egiftId}`, error);
+        errors.push(`Error processing gift card ${egiftId}`);
+        failCount++;
+      }
+    }
+
+    return {
+      success: successCount > 0,
+      message: `Successfully approved ${successCount} gift card(s). Failed: ${failCount}`,
+      successCount,
+      failCount,
+      errors: errors.length > 0 ? errors : undefined,
+    };
+  } catch (error) {
+    console.error("Failed to bulk approve egifts", error);
+    return {
+      success: false,
+      error: "Error bulk approving gift cards",
+      successCount: 0,
+      failCount: egiftIds.length,
+    };
+  }
+}
+
+// Admin: Bulk reject egifts
+export async function bulkRejectEgifts(egiftIds: string[], reason?: string) {
+  try {
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const egiftsCollection = db.collection("egifts");
+
+    const result = await egiftsCollection.updateMany(
+      {
+        _id: { $in: egiftIds.map((id) => new ObjectId(id)) },
+        status: "pending",
+      },
+      {
+        $set: {
+          status: "rejected",
+          rejectionReason: reason,
+          updatedAt: new Date(),
+        },
+      }
+    );
+
+    return {
+      success: result.modifiedCount > 0,
+      message: `Successfully rejected ${result.modifiedCount} gift card(s)`,
+      count: result.modifiedCount,
+    };
+  } catch (error) {
+    console.error("Failed to bulk reject egifts", error);
+    return { success: false, error: "Error bulk rejecting gift cards" };
+  }
+}
+
 // Admin: Get all sold egifts
 export async function getAllSoldEgifts() {
   try {
