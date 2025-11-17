@@ -99,6 +99,29 @@ export const translations = {
     approveSuccess: "User approved successfully and added 200 USDT to balance",
     rejectSuccess: "User rejected",
     cannotUpdate: "Cannot update",
+
+    // Ban Wall
+    banWallTitle: "Account Restricted",
+    banWallSubtitle:
+      "Your account has been suspended and cannot access features",
+    banWallReason: "Reason:",
+    banWallNoReason: "No specific information provided",
+    banWallContactTitle: "Contact Support",
+    banWallContactSignal: "Contact us on Signal",
+    banWallContactSecure: "Secure & Private Messaging",
+    banWallHowToContact: "How to contact us:",
+    banWallStep1: "Install Signal app on your device",
+    banWallStep2: "Scan the QR code above or use the contact information",
+    banWallStep3: "Start a secure conversation with our support team",
+    banWallStep4: "Describe your issue in detail",
+    banWallMistake:
+      "If you think this is a mistake, please contact admin immediately.",
+    banWallAppeal: "You have 48 hours to appeal this decision.",
+    banWallImportant: "Important:",
+    banWallSecurity:
+      "Only contact us through Signal for your security. We will never ask for your password or private keys.",
+    banWallSignOut: "Sign Out",
+    banWallSigningOut: "Signing out...",
   },
   ru: {
     // Navigation
@@ -199,6 +222,30 @@ export const translations = {
     approveSuccess: "Пользователь одобрен и 200 USDT добавлено на баланс",
     rejectSuccess: "Пользователь отклонен",
     cannotUpdate: "Невозможно обновить",
+
+    // Ban Wall
+    banWallTitle: "Аккаунт ограничен",
+    banWallSubtitle:
+      "Ваш аккаунт был заблокирован и не может получить доступ к функциям",
+    banWallReason: "Причина:",
+    banWallNoReason: "Конкретная информация не предоставлена",
+    banWallContactTitle: "Связаться с поддержкой",
+    banWallContactSignal: "Свяжитесь с нами в Signal",
+    banWallContactSecure: "Безопасный и приватный обмен сообщениями",
+    banWallHowToContact: "Как связаться с нами:",
+    banWallStep1: "Установите приложение Signal на ваше устройство",
+    banWallStep2:
+      "Отсканируйте QR-код выше или используйте контактную информацию",
+    banWallStep3: "Начните безопасный разговор с нашей службой поддержки",
+    banWallStep4: "Опишите вашу проблему подробно",
+    banWallMistake:
+      "Если вы считаете, что это ошибка, немедленно свяжитесь с администратором.",
+    banWallAppeal: "У вас есть 48 часов, чтобы обжаловать это решение.",
+    banWallImportant: "Важно:",
+    banWallSecurity:
+      "Связывайтесь с нами только через Signal для вашей безопасности. Мы никогда не будем спрашивать ваш пароль или приватные ключи.",
+    banWallSignOut: "Выйти",
+    banWallSigningOut: "Выход...",
   },
 } as const;
 

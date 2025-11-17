@@ -32,7 +32,6 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import { useLocale } from "@/hooks/use-locale";
 import { signOut } from "@/lib/actions/auth.actions";
-import { useRouter } from "next/navigation";
 
 interface SidebarUser {
   id: string;
@@ -45,6 +44,9 @@ interface SidebarUser {
   usdtWallet?: string;
   approvalStatus?: string;
   balance?: number;
+  isBanned?: boolean;
+  banReason?: string;
+  banContactEmail?: string;
 }
 
 export function AppSidebar({ user }: { user: SidebarUser | null }) {

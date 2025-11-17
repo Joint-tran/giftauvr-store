@@ -83,6 +83,9 @@ declare global {
     balance?: number;
     depositAmount?: number;
     depositTransactionHash?: string;
+    isBanned?: boolean;
+    banReason?: string;
+    banContactEmail?: string;
     createdAt?: Date;
     updatedAt?: Date;
     emailVerified?: boolean;

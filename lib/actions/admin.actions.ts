@@ -206,3 +206,86 @@ export async function updateUserWallet(
     return { success: false, error: "Đã xảy ra lỗi khi cập nhật" };
   }
 }
+
+// Ban user
+export async function banUser(
+  userId: string,
+  banReason: string,
+  banContactEmail?: string
+) {
+  try {
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const usersCollection = db.collection("user");
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      {
+        $set: {
+          isBanned: true,
+          banReason: banReason || "Terms of service violation",
+          banContactEmail: banContactEmail || "support@giftauvr.com",
+          updatedAt: new Date(),
+        },
+      }
+    );
+
+    if (result.modifiedCount > 0) {
+      return {
+        success: true,
+        message: "User account banned successfully",
+      };
+    }
+
+    return { success: false, error: "Unable to update" };
+  } catch (error) {
+    console.error("Failed to ban user", error);
+    return {
+      success: false,
+      error: "An error occurred while banning the account",
+    };
+  }
+}
+
+// Unban user
+export async function unbanUser(userId: string) {
+  try {
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const usersCollection = db.collection("user");
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      {
+        $set: {
+          isBanned: false,
+          updatedAt: new Date(),
+        },
+        $unset: {
+          banReason: "",
+        },
+      }
+    );
+
+    if (result.modifiedCount > 0) {
+      return {
+        success: true,
+        message: "User account unbanned successfully",
+      };
+    }
+
+    return { success: false, error: "Unable to update" };
+  } catch (error) {
+    console.error("Failed to unban user", error);
+    return {
+      success: false,
+      error: "An error occurred while unbanning the account",
+    };
+  }
+}

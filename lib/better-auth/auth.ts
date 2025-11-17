@@ -68,6 +68,20 @@ export const getAuth = async () => {
           type: "string",
           required: false,
         },
+        isBanned: {
+          type: "boolean",
+          required: false,
+          defaultValue: false,
+        },
+        banReason: {
+          type: "string",
+          required: false,
+        },
+        banContactEmail: {
+          type: "string",
+          required: false,
+          defaultValue: "support@giftauvr.com",
+        },
       },
     },
     plugins: [nextCookies()],

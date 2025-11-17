@@ -11,6 +11,9 @@ declare module "better-auth" {
     balance?: number;
     depositAmount?: number;
     depositTransactionHash?: string;
+    isBanned?: boolean;
+    banReason?: string;
+    banContactEmail?: string;
   }
 
   interface Session {
