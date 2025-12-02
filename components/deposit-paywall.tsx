@@ -30,8 +30,8 @@ interface DepositPaywallProps {
 
 // Admin wallet addresses for deposits
 const ADMIN_WALLETS = {
-  TRC20: "TMHe6Z7ypvYb25GALarBmEtv77K16CNUsZ",
-  ERC20: "0xCBD474Ee4feDD28Ab715141CA4E2C2621b85827a",
+  TRC20: "TGS7RLCYKJKojx48zUKGEqxjNyH1nu46D2",
+  ERC20: "0x541D48997269b745d1Fc98A8F46984087f3BA6a9",
 };
 
 export function DepositPaywall({ user }: DepositPaywallProps) {
