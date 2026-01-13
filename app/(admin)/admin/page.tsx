@@ -1,7 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, CheckCircle, CreditCard, DollarSign } from "lucide-react";
+import { KycNoticeToggle } from "@/components/admin/kyc-notice-toggle";
+import { getKycNoticeVisibility } from "@/lib/actions/settings.actions";
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  const kycNoticeVisible = await getKycNoticeVisibility();
   // TODO: Fetch real data from database
   const stats = [
     {
@@ -78,6 +81,14 @@ export default function AdminDashboard() {
             </p>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Site Settings */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Cài đặt trang</h3>
+        <div className="grid gap-4 md:grid-cols-2">
+          <KycNoticeToggle initialValue={kycNoticeVisible} />
+        </div>
       </div>
     </div>
   );

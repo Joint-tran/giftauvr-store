@@ -7,10 +7,14 @@ import {
   FileText,
   Ban,
   MessageCircle,
+  ShieldAlert,
 } from "lucide-react";
 import Image from "next/image";
+import { getKycNoticeVisibility } from "@/lib/actions/settings.actions";
 
-const PoliciesPage = () => {
+const PoliciesPage = async () => {
+  const showKycNotice = await getKycNoticeVisibility();
+
   return (
     <div className="flex flex-col gap-6 max-w-5xl mx-auto p-6">
       <div>
@@ -21,6 +25,53 @@ const PoliciesPage = () => {
       </div>
 
       <div className="grid gap-6">
+        {/* KYC Notice 2026 */}
+        {showKycNotice && (
+          <Card className="border-2 border-amber-500/50 bg-gradient-to-br from-amber-500/10 to-orange-500/10">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                <ShieldAlert className="h-5 w-5" />
+                Important KYC Notice - Effective 2026
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm">
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                <p className="font-semibold mb-3 text-amber-700 dark:text-amber-300">
+                  Enhanced KYC Requirements Due to Increased Fraudulent Transactions
+                </p>
+                <p className="text-muted-foreground mb-3">
+                  Starting from 2026, due to the significant increase in fraudulent transactions, 
+                  we have implemented stricter KYC (Know Your Customer) verification measures 
+                  to protect our platform and users.
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                  <li>
+                    <strong>Account Monitoring:</strong> All accounts are subject to enhanced 
+                    transaction monitoring and analysis.
+                  </li>
+                  <li>
+                    <strong>Suspicious Activity Reporting:</strong> If we detect any unusual 
+                    or suspicious transactions on your account, we reserve the right to share 
+                    relevant information with appropriate authorities and related parties.
+                  </li>
+                  <li>
+                    <strong>Legal Compliance:</strong> Please ensure that all your transactions 
+                    are legitimate and comply with applicable laws and regulations.
+                  </li>
+                </ul>
+              </div>
+              <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
+                <p className="text-xs text-muted-foreground">
+                  <strong className="text-red-600 dark:text-red-400">Warning:</strong> By using 
+                  this platform, you confirm and guarantee that all your transactions are lawful. 
+                  Any violation may result in account termination and reporting to relevant authorities.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Terms of Service */}
         <Card>
           <CardHeader>
@@ -274,7 +325,7 @@ const PoliciesPage = () => {
 
         {/* Last Updated */}
         <div className="text-center text-sm text-muted-foreground">
-          <p>Last updated: November 15, 2025</p>
+          <p>Last updated: January 13, 2026</p>
           <p className="mt-2">
             We reserve the right to modify these policies at any time. Users
             will be notified of significant changes.
