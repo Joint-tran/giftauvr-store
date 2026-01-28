@@ -40,6 +40,7 @@ import { toast } from "sonner";
 
 interface UserKycManagementProps {
   userId: string;
+  userEmail: string;
   userName: string;
   kycRequired?: boolean;
   kycStatus?: "pending" | "submitted" | "approved" | "rejected";
@@ -50,6 +51,7 @@ interface UserKycManagementProps {
 
 export function UserKycManagement({
   userId,
+  userEmail,
   userName,
   kycRequired = false,
   kycStatus,
@@ -73,7 +75,7 @@ export function UserKycManagement({
     setIsLoading(true);
     try {
       const result = await requireKycForUser({
-        userId,
+        userEmail,
         reason: kycReason,
       });
       if (result.success) {
@@ -94,7 +96,7 @@ export function UserKycManagement({
   const handleApproveKyc = async () => {
     setIsLoading(true);
     try {
-      const result = await approveKyc(userId);
+      const result = await approveKyc(userEmail);
       if (result.success) {
         toast.success(result.message);
         setReviewOpen(false);
@@ -117,7 +119,7 @@ export function UserKycManagement({
 
     setIsLoading(true);
     try {
-      const result = await rejectKyc({ userId, reason: rejectReason });
+      const result = await rejectKyc({ userEmail, reason: rejectReason });
       if (result.success) {
         toast.success(result.message);
         setRejectOpen(false);
@@ -136,7 +138,7 @@ export function UserKycManagement({
   const handleRemoveKycRequirement = async () => {
     setIsLoading(true);
     try {
-      const result = await removeKycRequirement(userId);
+      const result = await removeKycRequirement(userEmail);
       if (result.success) {
         toast.success(result.message);
         window.location.reload();

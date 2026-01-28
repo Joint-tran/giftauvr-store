@@ -50,14 +50,19 @@ export default async function KycVerificationPage() {
     selfie: string;
   }) => {
     "use server";
-    const result = await submitKycVerification({
-      userId: user.id,
-      documentType: data.documentType,
-      documentFront: data.documentFront,
-      documentBack: data.documentBack,
-      selfie: data.selfie,
-    });
-    return result;
+    try {
+      const result = await submitKycVerification({
+        userId: user.id,
+        documentType: data.documentType,
+        documentFront: data.documentFront,
+        documentBack: data.documentBack,
+        selfie: data.selfie,
+      });
+      return result;
+    } catch (error) {
+      console.error("handleSubmit error:", error);
+      return { success: false, error: "Server error occurred" };
+    }
   };
 
   const getStatusBadge = () => {

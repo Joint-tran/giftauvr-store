@@ -33,9 +33,9 @@ export async function submitKycVerification(data: {
 
     const usersCollection = db.collection("user");
 
-    // Update KYC status to submitted
+    // Update KYC status using email (most reliable identifier)
     const result = await usersCollection.updateOne(
-      { id: data.userId },
+      { email: session.user.email },
       {
         $set: {
           kycStatus: "submitted",
@@ -49,13 +49,13 @@ export async function submitKycVerification(data: {
       }
     );
 
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       revalidatePath("/kyc-verification");
       revalidatePath("/");
       return { success: true, message: "KYC submitted successfully" };
     }
 
-    return { success: false, error: "Failed to submit KYC" };
+    return { success: false, error: "User not found" };
   } catch (error) {
     console.error("Failed to submit KYC", error);
     return { success: false, error: "Failed to submit KYC" };
@@ -64,7 +64,7 @@ export async function submitKycVerification(data: {
 
 // Admin action to require KYC for a user
 export async function requireKycForUser(data: {
-  userId: string;
+  userEmail: string;
   reason: string;
 }) {
   try {
@@ -76,7 +76,6 @@ export async function requireKycForUser(data: {
       return { success: false, error: "Not authenticated" };
     }
 
-    // Check if the user is an admin (you may need to adjust this based on your admin logic)
     const mongoose = await connectToDatabase();
     const db = mongoose.connection.db;
 
@@ -84,9 +83,9 @@ export async function requireKycForUser(data: {
 
     const usersCollection = db.collection("user");
 
-    // Update user to require KYC
+    // Update user to require KYC using email
     const result = await usersCollection.updateOne(
-      { id: data.userId },
+      { email: data.userEmail },
       {
         $set: {
           kycRequired: true,
@@ -97,11 +96,11 @@ export async function requireKycForUser(data: {
       }
     );
 
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       return { success: true, message: "KYC requirement set for user" };
     }
 
-    return { success: false, error: "Failed to set KYC requirement" };
+    return { success: false, error: "User not found" };
   } catch (error) {
     console.error("Failed to require KYC for user", error);
     return { success: false, error: "Failed to require KYC for user" };
@@ -109,7 +108,7 @@ export async function requireKycForUser(data: {
 }
 
 // Admin action to approve KYC
-export async function approveKyc(userId: string) {
+export async function approveKyc(userEmail: string) {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -127,7 +126,7 @@ export async function approveKyc(userId: string) {
     const usersCollection = db.collection("user");
 
     const result = await usersCollection.updateOne(
-      { id: userId },
+      { email: userEmail },
       {
         $set: {
           kycStatus: "approved",
@@ -137,11 +136,11 @@ export async function approveKyc(userId: string) {
       }
     );
 
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       return { success: true, message: "KYC approved" };
     }
 
-    return { success: false, error: "Failed to approve KYC" };
+    return { success: false, error: "User not found" };
   } catch (error) {
     console.error("Failed to approve KYC", error);
     return { success: false, error: "Failed to approve KYC" };
@@ -149,7 +148,7 @@ export async function approveKyc(userId: string) {
 }
 
 // Admin action to reject KYC
-export async function rejectKyc(data: { userId: string; reason: string }) {
+export async function rejectKyc(data: { userEmail: string; reason: string }) {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -167,7 +166,7 @@ export async function rejectKyc(data: { userId: string; reason: string }) {
     const usersCollection = db.collection("user");
 
     const result = await usersCollection.updateOne(
-      { id: data.userId },
+      { email: data.userEmail },
       {
         $set: {
           kycStatus: "rejected",
@@ -178,11 +177,11 @@ export async function rejectKyc(data: { userId: string; reason: string }) {
       }
     );
 
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       return { success: true, message: "KYC rejected" };
     }
 
-    return { success: false, error: "Failed to reject KYC" };
+    return { success: false, error: "User not found" };
   } catch (error) {
     console.error("Failed to reject KYC", error);
     return { success: false, error: "Failed to reject KYC" };
@@ -190,7 +189,7 @@ export async function rejectKyc(data: { userId: string; reason: string }) {
 }
 
 // Admin action to remove KYC requirement
-export async function removeKycRequirement(userId: string) {
+export async function removeKycRequirement(userEmail: string) {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -208,7 +207,7 @@ export async function removeKycRequirement(userId: string) {
     const usersCollection = db.collection("user");
 
     const result = await usersCollection.updateOne(
-      { id: userId },
+      { email: userEmail },
       {
         $set: {
           kycRequired: false,
@@ -217,11 +216,11 @@ export async function removeKycRequirement(userId: string) {
       }
     );
 
-    if (result.modifiedCount > 0) {
+    if (result.matchedCount > 0) {
       return { success: true, message: "KYC requirement removed" };
     }
 
-    return { success: false, error: "Failed to remove KYC requirement" };
+    return { success: false, error: "User not found" };
   } catch (error) {
     console.error("Failed to remove KYC requirement", error);
     return { success: false, error: "Failed to remove KYC requirement" };

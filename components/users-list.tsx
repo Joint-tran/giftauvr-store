@@ -133,6 +133,7 @@ export function UsersList({ users }: UsersListProps) {
                       <TableCell>
                         <UserKycManagement
                           userId={userId}
+                          userEmail={user.email}
                           userName={user.fullName || user.name}
                           kycRequired={user.kycRequired}
                           kycStatus={user.kycStatus}
