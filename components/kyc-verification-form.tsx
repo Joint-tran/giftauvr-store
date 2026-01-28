@@ -26,7 +26,6 @@ import {
 } from "./ui/select";
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/hooks/use-locale";
-import { BUNNY_CONFIG } from "@/image-uploader/config";
 
 type DocumentType = "passport" | "national_id" | "drivers_license";
 
@@ -124,34 +123,23 @@ export function KycVerificationForm({ onSubmit, existingData }: KycVerificationF
   const requiresBack = formData.documentType === "national_id" || formData.documentType === "drivers_license";
 
   const uploadToBunny = async (file: File): Promise<string> => {
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const extension = file.name.split(".").pop();
-    const fileName = `kyc/${timestamp}-${randomString}.${extension}`;
-    const uploadUrl = `${BUNNY_CONFIG.baseUrl}/${BUNNY_CONFIG.storageZoneName}/${fileName}`;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folder", "kyc");
 
-    console.log("Upload URL:", uploadUrl);
-    console.log("Storage Zone:", BUNNY_CONFIG.storageZoneName);
-    console.log("CDN URL:", BUNNY_CONFIG.cdnUrl);
-    console.log("Access Key set:", !!BUNNY_CONFIG.accessKey);
-
-    const response = await fetch(uploadUrl, {
-      method: "PUT",
-      headers: {
-        AccessKey: BUNNY_CONFIG.accessKey,
-        "Content-Type": "application/octet-stream",
-        accept: "application/json",
-      },
-      body: file,
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Upload failed:", response.status, errorText);
-      throw new Error(`Upload failed: ${response.status} - ${errorText}`);
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      console.error("Upload failed:", result.error);
+      throw new Error(result.error || "Upload failed");
     }
 
-    return `${BUNNY_CONFIG.cdnUrl}/${fileName}`;
+    return result.url;
   };
 
   const handleFileUpload = async (
