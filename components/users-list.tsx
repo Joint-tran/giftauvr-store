@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, User, Ban, ShieldCheck } from "lucide-react";
 import { UserBanManagement } from "@/components/user-ban-management";
+import { UserKycManagement } from "@/components/user-kyc-management";
 
 interface UsersListProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +76,7 @@ export function UsersList({ users }: UsersListProps) {
                 <TableHead>Deposit</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Ban Status</TableHead>
+                <TableHead>KYC</TableHead>
                 <TableHead>Created Date</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -83,7 +85,7 @@ export function UsersList({ users }: UsersListProps) {
               {filteredUsers.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={10}
+                    colSpan={11}
                     className="text-center text-muted-foreground"
                   >
                     No users found
@@ -91,7 +93,9 @@ export function UsersList({ users }: UsersListProps) {
                 </TableRow>
               ) : (
                 filteredUsers.map((user) => {
-                  const userId = user.id || user._id?.toString();
+                  const odataId = user._id?.toString() || user.id;
+                  const odataUserId = user.id || user._id?.toString();
+                  const userId = odataUserId;
                   return (
                     <TableRow key={userId}>
                       <TableCell className="font-medium">
@@ -125,6 +129,17 @@ export function UsersList({ users }: UsersListProps) {
                             Active
                           </Badge>
                         )}
+                      </TableCell>
+                      <TableCell>
+                        <UserKycManagement
+                          userId={userId}
+                          userName={user.fullName || user.name}
+                          kycRequired={user.kycRequired}
+                          kycStatus={user.kycStatus}
+                          kycDocumentFront={user.kycDocumentFront}
+                          kycDocumentBack={user.kycDocumentBack}
+                          kycSelfie={user.kycSelfie}
+                        />
                       </TableCell>
                       <TableCell>
                         {user.createdAt

@@ -90,6 +90,16 @@ declare global {
     updatedAt?: Date;
     emailVerified?: boolean;
     image?: string;
+    // KYC fields
+    kycRequired?: boolean;
+    kycStatus?: "pending" | "submitted" | "approved" | "rejected";
+    kycReason?: string;
+    kycDocumentType?: string;
+    kycDocumentFront?: string;
+    kycDocumentBack?: string;
+    kycSelfie?: string;
+    kycSubmittedAt?: Date;
+    kycReviewedAt?: Date;
   };
 
   type ApprovalEmailData = {

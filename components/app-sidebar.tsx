@@ -13,6 +13,7 @@ import {
   LogIn,
   Clock,
   DollarSign,
+  ShieldAlert,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -47,6 +48,9 @@ interface SidebarUser {
   isBanned?: boolean;
   banReason?: string;
   banContactEmail?: string;
+  kycRequired?: boolean;
+  kycStatus?: "pending" | "submitted" | "approved" | "rejected";
+  kycReason?: string;
 }
 
 export function AppSidebar({ user }: { user: SidebarUser | null }) {
@@ -148,7 +152,7 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
                       <p className="text-sm font-semibold truncate flex items-center gap-1">
                         {user.name}{" "}
                       </p>
-                      <div className="flex items-center justify-start gap-1">
+                      <div className="flex items-center justify-start gap-1 flex-wrap">
                         {" "}
                         <span className="text-[8px] text-ring">
                           {user.accountType}
@@ -157,6 +161,12 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
                           <span className="text-[8px] flex items-center gap-0.5 text-yellow-500">
                             <Clock className="size-2" />
                             {user.approvalStatus}
+                          </span>
+                        )}
+                        {user.kycRequired && user.kycStatus !== "approved" && (
+                          <span className="text-[8px] flex items-center gap-0.5 text-orange-500 bg-orange-500/10 px-1 py-0.5 rounded">
+                            <ShieldAlert className="size-2" />
+                            KYC
                           </span>
                         )}
                       </div>

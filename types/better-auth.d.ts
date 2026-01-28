@@ -14,6 +14,16 @@ declare module "better-auth" {
     isBanned?: boolean;
     banReason?: string;
     banContactEmail?: string;
+    // KYC fields
+    kycRequired?: boolean;
+    kycStatus?: "pending" | "submitted" | "approved" | "rejected";
+    kycReason?: string;
+    kycDocumentType?: string;
+    kycDocumentFront?: string;
+    kycDocumentBack?: string;
+    kycSelfie?: string;
+    kycSubmittedAt?: Date;
+    kycReviewedAt?: Date;
   }
 
   interface Session {
