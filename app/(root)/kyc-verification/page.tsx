@@ -50,13 +50,14 @@ export default async function KycVerificationPage() {
     selfie: string;
   }) => {
     "use server";
-    await submitKycVerification({
+    const result = await submitKycVerification({
       userId: user.id,
       documentType: data.documentType,
       documentFront: data.documentFront,
       documentBack: data.documentBack,
       selfie: data.selfie,
     });
+    return result;
   };
 
   const getStatusBadge = () => {

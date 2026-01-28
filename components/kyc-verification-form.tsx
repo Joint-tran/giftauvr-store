@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Upload,
   Camera,
@@ -12,7 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertCircle,
-  User,
+  Smartphone,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
@@ -37,7 +37,7 @@ interface KycFormData {
 }
 
 interface KycVerificationFormProps {
-  onSubmit: (data: KycFormData) => Promise<void>;
+  onSubmit: (data: KycFormData) => Promise<{ success: boolean; error?: string } | void>;
   existingData?: Partial<KycFormData>;
 }
 
@@ -184,9 +184,16 @@ export function KycVerificationForm({ onSubmit, existingData }: KycVerificationF
     
     setIsSubmitting(true);
     try {
-      await onSubmit(formData);
+      const result = await onSubmit(formData);
+      if (result && !result.success) {
+        alert(result.error || "Failed to submit. Please try again.");
+      } else {
+        // Reload page to show updated status
+        window.location.reload();
+      }
     } catch (error) {
       console.error("Submit error:", error);
+      alert("Failed to submit. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -370,7 +377,7 @@ export function KycVerificationForm({ onSubmit, existingData }: KycVerificationF
                 isUploading={uploadingField === "selfie"}
                 hint={t.uploadHint}
                 formats={t.uploadFormats}
-                icon={<User className="h-10 w-10 text-muted-foreground" />}
+                icon={<Camera className="h-10 w-10 text-muted-foreground" />}
                 cameraOnly={true}
               />
 
@@ -448,6 +455,18 @@ function ImageUploadBox({
 }: ImageUploadBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    // Detect if user is on mobile device
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor;
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      setIsMobile(isMobileDevice || isTouchDevice);
+    };
+    checkMobile();
+  }, []);
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -456,6 +475,19 @@ function ImageUploadBox({
     const file = e.dataTransfer.files?.[0];
     if (file) onChange(file);
   };
+
+  // Show mobile-only message for cameraOnly mode on desktop
+  if (cameraOnly && !isMobile && !value) {
+    return (
+      <div className="border-2 border-dashed rounded-lg p-8 text-center border-orange-500/50 bg-orange-500/5">
+        <Smartphone className="h-10 w-10 mx-auto mb-4 text-orange-500" />
+        <p className="text-sm font-medium mb-1 text-orange-600">Please use your mobile device</p>
+        <p className="text-xs text-muted-foreground">
+          For security reasons, selfie capture requires a mobile device with camera access.
+        </p>
+      </div>
+    );
+  }
 
   if (value) {
     return (
