@@ -14,6 +14,7 @@ import {
   Wallet,
   AlertCircle,
   Globe,
+  Crown,
 } from "lucide-react";
 import { submitPayoutRequest } from "@/lib/actions/payout.actions";
 
@@ -26,6 +27,7 @@ interface PayoutRequestFormProps {
     usdtWallet: string;
     network: string;
   };
+  isPremiumPending?: boolean;
 }
 
 const maskWalletAddress = (address: string) => {
@@ -33,7 +35,7 @@ const maskWalletAddress = (address: string) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
+export function PayoutRequestForm({ user, isPremiumPending = false }: PayoutRequestFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
@@ -107,6 +109,19 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
           </div>
         </div>
 
+        {/* Premium Pending Warning */}
+        {isPremiumPending && (
+          <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+            <div className="flex items-start gap-2">
+              <Crown className="h-5 w-5 text-amber-600 mt-0.5" />
+              <div className="text-sm text-amber-700 dark:text-amber-400">
+                <strong>Premium Deposit Required</strong>
+                <p className="mt-1">Please complete your Premium deposit to enable payout requests.</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Wallet Info */}
         {user.usdtWallet && user.network ? (
           <div className="mb-6 p-4 bg-muted rounded-lg space-y-2">
@@ -151,7 +166,7 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
-              disabled={!user.usdtWallet || !user.network}
+              disabled={isPremiumPending || !user.usdtWallet || !user.network}
             />
             <p className="text-xs text-muted-foreground">
               Minimum: $2,000 • Maximum: ${user.balance.toFixed(2)}
@@ -167,7 +182,7 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
-              disabled={!user.usdtWallet || !user.network}
+              disabled={isPremiumPending || !user.usdtWallet || !user.network}
             />
           </div>
 
@@ -184,7 +199,7 @@ export function PayoutRequestForm({ user }: PayoutRequestFormProps) {
 
           <Button
             type="submit"
-            disabled={loading || !user.usdtWallet || !user.network}
+            disabled={loading || isPremiumPending || !user.usdtWallet || !user.network}
             className="w-full"
             size="lg"
           >

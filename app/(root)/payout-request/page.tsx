@@ -5,6 +5,7 @@ import { PayoutRequestForm } from "@/components/payout-request-form";
 import { MyPayoutRequests } from "@/components/my-payout-requests";
 import { DepositPaywall } from "@/components/deposit-paywall";
 import { getMyPayoutRequests } from "@/lib/actions/payout.actions";
+import { connectToDatabase } from "@/database/mongoose";
 
 export default async function PayoutRequestPage() {
   const session = await auth.api.getSession({
@@ -15,6 +16,13 @@ export default async function PayoutRequestPage() {
     redirect("/sign-in");
   }
 
+  // Fetch user data from database for premium status
+  const mongoose = await connectToDatabase();
+  const db = mongoose.connection.db;
+  const dbUser = db ? await db.collection("user").findOne({ email: session.user.email }) : null;
+
+  const isPremiumPending = dbUser?.accountType === "premium" && !dbUser?.premiumActivatedAt;
+
   const user = {
     id: session.user.id,
     fullName: (session.user as any).fullName || session.user.name || "",
@@ -23,6 +31,7 @@ export default async function PayoutRequestPage() {
     usdtWallet: (session.user as any).usdtWallet || "",
     network: (session.user as any).network || "",
     approvalStatus: (session.user as any).approvalStatus || "pending",
+    isPremiumPending,
   };
 
   const payoutsResult = await getMyPayoutRequests();
@@ -54,7 +63,7 @@ export default async function PayoutRequestPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <PayoutRequestForm user={user} />
+        <PayoutRequestForm user={user} isPremiumPending={isPremiumPending} />
         <MyPayoutRequests payouts={myPayouts} />
       </div>
     </div>

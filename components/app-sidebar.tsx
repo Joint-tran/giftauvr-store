@@ -14,6 +14,8 @@ import {
   Clock,
   DollarSign,
   ShieldAlert,
+  Crown,
+  Copy,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -30,6 +32,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { useLocale } from "@/hooks/use-locale";
 import { signOut } from "@/lib/actions/auth.actions";
@@ -51,6 +54,11 @@ interface SidebarUser {
   kycRequired?: boolean;
   kycStatus?: "pending" | "submitted" | "approved" | "rejected";
   kycReason?: string;
+  // Premium fields
+  premiumDepositRequired?: number;
+  premiumDepositAmount?: number;
+  premiumWalletAddress?: string;
+  premiumActivatedAt?: Date;
 }
 
 export function AppSidebar({ user }: { user: SidebarUser | null }) {
@@ -81,8 +89,8 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
           },
         ]
       : []),
-    // Show Sell Cards only for Seller
-    ...(user?.accountType?.toLowerCase() === "seller"
+    // Show Sell Cards for Seller and Premium
+    ...(user?.accountType?.toLowerCase() === "seller" || user?.accountType?.toLowerCase() === "premium"
       ? [
           {
             title: t.sellCards,
@@ -154,9 +162,16 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
                       </p>
                       <div className="flex items-center justify-start gap-1 flex-wrap">
                         {" "}
-                        <span className="text-[8px] text-ring">
-                          {user.accountType}
-                        </span>
+                        {user.accountType === "premium" ? (
+                          <span className="text-[8px] flex items-center gap-0.5 text-white bg-gradient-to-r from-amber-500 to-orange-500 px-1.5 py-0.5 rounded font-medium">
+                            <Crown className="size-2" />
+                            Premium
+                          </span>
+                        ) : (
+                          <span className="text-[8px] text-ring">
+                            {user.accountType}
+                          </span>
+                        )}
                         {user.approvalStatus === "pending" && (
                           <span className="text-[8px] flex items-center gap-0.5 text-yellow-500">
                             <Clock className="size-2" />
@@ -177,6 +192,66 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
                   </div>
                 </div>
               </SidebarGroupContent>
+              {/* Premium Deposit Progress */}
+              {user.accountType === "premium" && !user.premiumActivatedAt && (
+                <SidebarGroupContent>
+                  <div className="rounded-lg bg-gradient-to-bl
+from-[#ffe4e6]
+to-[#ccfbf1] border border-amber-500/20 p-3 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-medium text-amber-500 flex items-center gap-1">
+                        <Crown className="size-3 text-amber-500" />
+                        Premium Deposit
+                      </span>
+                      <span className="text-muted-foreground">
+                        {((user.premiumDepositAmount || 0) / (user.premiumDepositRequired || 15000) * 100).toFixed(0)}%
+                      </span>
+                    </div>
+                    <Progress 
+                      value={(user.premiumDepositAmount || 0) / (user.premiumDepositRequired || 15000) * 100} 
+                      className="h-2"
+                    />
+                    <div className="flex justify-between text-[10px] text-muted-foreground">
+                      <span>${(user.premiumDepositAmount || 0).toLocaleString()}</span>
+                      <span>${(user.premiumDepositRequired || 15000).toLocaleString()}</span>
+                    </div>
+                    {user.premiumWalletAddress && (
+                      <div className="pt-2 border-t border-amber-500/20 space-y-1">
+                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <Wallet className="size-3" />
+                          Wallet Address
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <code className="flex-1 text-[9px] bg-white/50 rounded px-1.5 py-1 truncate">
+                            {user.premiumWalletAddress}
+                          </code>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 shrink-0"
+                            onClick={() => {
+                              navigator.clipboard.writeText(user.premiumWalletAddress || "");
+                            }}
+                          >
+                            <Copy className="size-3" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    <Link
+                      href="/premium-deposit"
+                      className={buttonVariants({
+                        variant: "default",
+                        size: "sm",
+                        className: "w-full mt-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white",
+                      })}
+                    >
+                      <Wallet className="size-3 mr-1" />
+                      Deposit
+                    </Link>
+                  </div>
+                </SidebarGroupContent>
+              )}
               <SidebarGroupContent>
                 <div className="flex items-center gap-2 rounded-lg border border-dashed border-sidebar-border p-3">
                   <DollarSign className="size-4 text-muted-foreground" />

@@ -100,6 +100,11 @@ declare global {
     kycSelfie?: string;
     kycSubmittedAt?: Date;
     kycReviewedAt?: Date;
+    // Premium account fields
+    premiumDepositRequired?: number;
+    premiumDepositAmount?: number;
+    premiumWalletAddress?: string;
+    premiumActivatedAt?: Date;
   };
 
   type ApprovalEmailData = {

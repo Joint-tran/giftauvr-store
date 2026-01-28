@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { SellEgiftForm } from "@/components/sell-egift-form";
 import { MyEgiftsList } from "@/components/my-egifts-list";
 import { getMyEgifts } from "@/lib/actions/egift.actions";
+import { connectToDatabase } from "@/database/mongoose";
 
 export default async function SellPage() {
   const session = await auth.api.getSession({
@@ -14,8 +15,18 @@ export default async function SellPage() {
     redirect("/sign-in");
   }
 
-  // Check if user is a seller
-  if (session.user.accountType?.toLowerCase() !== "seller") {
+  // Fetch user data from database for premium status
+  const mongoose = await connectToDatabase();
+  const db = mongoose.connection.db;
+  const dbUser = db ? await db.collection("user").findOne({ email: session.user.email }) : null;
+
+  const accountType = dbUser?.accountType?.toLowerCase() || (session.user as any).accountType?.toLowerCase();
+  const isPremium = accountType === "premium";
+  const isSeller = accountType === "seller";
+  const isPremiumPending = isPremium && !dbUser?.premiumActivatedAt;
+
+  // Check if user is a seller or premium
+  if (!isSeller && !isPremium) {
     redirect("/");
   }
 
@@ -34,7 +45,7 @@ export default async function SellPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <SellEgiftForm approvalStatus={approvalStatus} />
+        <SellEgiftForm approvalStatus={approvalStatus} isPremiumPending={isPremiumPending} />
         <MyEgiftsList egifts={myEgifts} />
       </div>
     </div>

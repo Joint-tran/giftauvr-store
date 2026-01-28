@@ -48,6 +48,11 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       kycRequired: dbUser?.kycRequired ?? false,
       kycStatus: dbUser?.kycStatus,
       kycReason: dbUser?.kycReason,
+      // Premium fields
+      premiumDepositRequired: dbUser?.premiumDepositRequired,
+      premiumDepositAmount: dbUser?.premiumDepositAmount,
+      premiumWalletAddress: dbUser?.premiumWalletAddress,
+      premiumActivatedAt: dbUser?.premiumActivatedAt,
     };
   }
   return (

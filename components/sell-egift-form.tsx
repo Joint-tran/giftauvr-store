@@ -30,15 +30,17 @@ import {
   ChevronsUpDown,
   AlertCircle,
   Lock,
+  Crown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface SellEgiftFormProps {
   approvalStatus: string;
+  isPremiumPending?: boolean;
 }
 
-export function SellEgiftForm({ approvalStatus }: SellEgiftFormProps) {
+export function SellEgiftForm({ approvalStatus, isPremiumPending = false }: SellEgiftFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -122,6 +124,7 @@ export function SellEgiftForm({ approvalStatus }: SellEgiftFormProps) {
   };
 
   const isPending = approvalStatus === "pending";
+  const isDisabled = isPending || isPremiumPending;
 
   return (
     <Card>
@@ -137,7 +140,30 @@ export function SellEgiftForm({ approvalStatus }: SellEgiftFormProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {isPending && (
+        {isPremiumPending && (
+          <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+            <div className="flex items-start gap-3">
+              <Crown className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="space-y-2 flex-1">
+                <p className="font-semibold text-amber-700 dark:text-amber-500">
+                  Premium Deposit Required
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Please complete your Premium deposit to enable selling gift cards.
+                </p>
+                <Link
+                  href="/premium-deposit"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-amber-700 dark:text-amber-500 hover:underline"
+                >
+                  <Crown className="h-4 w-4" />
+                  View Deposit Instructions
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {isPending && !isPremiumPending && (
           <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" />
@@ -344,7 +370,7 @@ export function SellEgiftForm({ approvalStatus }: SellEgiftFormProps) {
 
           <Button
             type="submit"
-            disabled={loading || isPending}
+            disabled={loading || isDisabled}
             className="w-full"
             size="lg"
           >
@@ -352,6 +378,11 @@ export function SellEgiftForm({ approvalStatus }: SellEgiftFormProps) {
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Submitting...
+              </>
+            ) : isPremiumPending ? (
+              <>
+                <Crown className="mr-2 h-4 w-4" />
+                Premium Deposit Required
               </>
             ) : isPending ? (
               <>

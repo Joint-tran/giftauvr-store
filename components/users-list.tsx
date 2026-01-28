@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, User, Ban, ShieldCheck } from "lucide-react";
 import { UserBanManagement } from "@/components/user-ban-management";
 import { UserKycManagement } from "@/components/user-kyc-management";
+import { UserPremiumManagement } from "@/components/user-premium-management";
 
 interface UsersListProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,6 +78,7 @@ export function UsersList({ users }: UsersListProps) {
                 <TableHead>Status</TableHead>
                 <TableHead>Ban Status</TableHead>
                 <TableHead>KYC</TableHead>
+                <TableHead>Premium</TableHead>
                 <TableHead>Created Date</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -85,7 +87,7 @@ export function UsersList({ users }: UsersListProps) {
               {filteredUsers.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={11}
+                    colSpan={12}
                     className="text-center text-muted-foreground"
                   >
                     No users found
@@ -140,6 +142,17 @@ export function UsersList({ users }: UsersListProps) {
                           kycDocumentFront={user.kycDocumentFront}
                           kycDocumentBack={user.kycDocumentBack}
                           kycSelfie={user.kycSelfie}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <UserPremiumManagement
+                          userEmail={user.email}
+                          userName={user.fullName || user.name}
+                          accountType={user.accountType || "buyer"}
+                          premiumDepositRequired={user.premiumDepositRequired}
+                          premiumDepositAmount={user.premiumDepositAmount}
+                          premiumWalletAddress={user.premiumWalletAddress}
+                          premiumActivatedAt={user.premiumActivatedAt}
                         />
                       </TableCell>
                       <TableCell>

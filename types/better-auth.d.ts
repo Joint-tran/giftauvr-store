@@ -24,6 +24,11 @@ declare module "better-auth" {
     kycSelfie?: string;
     kycSubmittedAt?: Date;
     kycReviewedAt?: Date;
+    // Premium account fields
+    premiumDepositRequired?: number;
+    premiumDepositAmount?: number;
+    premiumWalletAddress?: string;
+    premiumActivatedAt?: Date;
   }
 
   interface Session {
