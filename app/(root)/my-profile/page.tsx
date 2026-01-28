@@ -34,7 +34,7 @@ export default async function MyProfilePage() {
         </p>
       </div>
 
-      <ProfileForm user={user} />
+      <ProfileForm user={user} isPremium={user.accountType?.toLowerCase() === "premium"} />
     </div>
   );
 }

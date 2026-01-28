@@ -40,26 +40,13 @@ interface ProfileFormProps {
     balance: number;
     createdAt: Date;
   };
+  isPremium?: boolean;
 }
 
 const COUNTRIES = [
-  "United States",
-  "Vietnam",
-  "China",
-  "Japan",
-  "South Korea",
-  "Singapore",
-  "Thailand",
-  "Malaysia",
-  "Indonesia",
-  "Philippines",
-  "India",
-  "United Kingdom",
-  "Germany",
-  "France",
-  "Canada",
-  "Australia",
-  "Other",
+  { value: "US", label: "United States" },
+  { value: "RU", label: "Russia" },
+  { value: "IN", label: "India" },
 ];
 
 const NETWORKS = ["TRC20", "ERC20", "BEP20"];
@@ -69,7 +56,7 @@ const maskWalletAddress = (address: string) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-export function ProfileForm({ user }: ProfileFormProps) {
+export function ProfileForm({ user, isPremium = false }: ProfileFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -248,14 +235,16 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   </SelectTrigger>
                   <SelectContent>
                     {COUNTRIES.map((country) => (
-                      <SelectItem key={country} value={country}>
-                        {country}
+                      <SelectItem key={country.value} value={country.value}>
+                        {country.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               ) : (
-                <div className="font-semibold">{user.country || "Not set"}</div>
+                <div className="font-semibold">
+                  {COUNTRIES.find((c) => c.value === user.country)?.label || user.country || "Not set"}
+                </div>
               )}
             </div>
 
@@ -265,7 +254,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                 <Globe className="h-4 w-4" />
                 Withdrawal Network
               </Label>
-              {editMode && !user.network ? (
+              {editMode && (!user.network || isPremium) ? (
                 <Select
                   value={formData.network}
                   onValueChange={(value) =>
@@ -286,7 +275,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
               ) : (
                 <div className="text-sm">{user.network || "Not set"}</div>
               )}
-              {user.network && (
+              {user.network && !isPremium && (
                 <p className="text-xs text-yellow-600 dark:text-yellow-500">
                   ⚠️ Network cannot be changed once set for security reasons
                 </p>
@@ -299,7 +288,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                 <Wallet className="h-4 w-4" />
                 USDT Wallet Address
               </Label>
-              {editMode && !user.usdtWallet ? (
+              {editMode && (!user.usdtWallet || isPremium) ? (
                 <Input
                   id="usdtWallet"
                   type="text"
@@ -319,7 +308,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     : "Not set"}
                 </div>
               )}
-              {user.usdtWallet && (
+              {user.usdtWallet && !isPremium && (
                 <p className="text-xs text-yellow-600 dark:text-yellow-500">
                   ⚠️ Wallet address cannot be changed once set for security
                   reasons
@@ -327,7 +316,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
               )}
               {!user.usdtWallet && !editMode && (
                 <p className="text-xs text-muted-foreground">
-                  Click Edit to set your wallet address (can only be set once)
+                  Click Edit to set your wallet address {!isPremium && "(can only be set once)"}
                 </p>
               )}
             </div>
