@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { auth } from "@/lib/better-auth/auth";
+import { headers } from "next/headers";
 import {
   AlertCircle,
   Shield,
@@ -11,9 +13,22 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { getKycNoticeVisibility } from "@/lib/actions/settings.actions";
+import { connectToDatabase } from "@/database/mongoose";
 
 const PoliciesPage = async () => {
   const showKycNotice = await getKycNoticeVisibility();
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const mongoose = await connectToDatabase();
+  const db = mongoose.connection.db;
+  const dbUser =
+    session?.user?.email && db
+      ? await db.collection("user").findOne({ email: session.user.email })
+      : null;
+  const isPremium = dbUser?.accountType === "premium";
 
   return (
     <div className="flex flex-col gap-6 max-w-5xl mx-auto p-6">
@@ -66,6 +81,33 @@ const PoliciesPage = async () => {
                   <strong className="text-red-600 dark:text-red-400">Warning:</strong> By using 
                   this platform, you confirm and guarantee that all your transactions are lawful. 
                   Any violation may result in account termination and reporting to relevant authorities.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Premium Compliance Notice */}
+        {isPremium && (
+          <Card className="border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-teal-500/10">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300">
+                <ShieldAlert className="h-5 w-5" />
+                Premium Compliance Notice
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <p className="text-muted-foreground">
+                As a <strong>Premium</strong> seller, you may sell in larger volume.
+              </p>
+              <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
+                <p className="font-semibold mb-2 text-emerald-800 dark:text-emerald-200">
+                  Document Requirements
+                </p>
+                <p className="text-muted-foreground">
+                  You must be able to provide complete identification and supporting documents
+                  upon request, especially for large-volume selling, in case law enforcement
+                  or relevant authorities require verification.
                 </p>
               </div>
             </CardContent>
