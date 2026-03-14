@@ -192,7 +192,7 @@ export async function approveEgift(egiftId: string) {
           soldAt: new Date(),
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     if (egiftResult.modifiedCount === 0) {
@@ -215,7 +215,7 @@ export async function approveEgift(egiftId: string) {
             updatedAt: new Date(),
           },
           $unset: { soldAt: "" },
-        }
+        },
       );
       return {
         success: false,
@@ -234,7 +234,7 @@ export async function approveEgift(egiftId: string) {
         $set: {
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     // Check matchedCount instead of modifiedCount for $inc operations
@@ -248,7 +248,7 @@ export async function approveEgift(egiftId: string) {
             updatedAt: new Date(),
           },
           $unset: { soldAt: "" },
-        }
+        },
       );
       console.error("Failed to update balance for user:", egift.sellerId);
       return { success: false, error: "Cannot update seller balance" };
@@ -257,7 +257,7 @@ export async function approveEgift(egiftId: string) {
     return {
       success: true,
       message: `Gift card purchased! $${egift.sellingPrice.toFixed(
-        2
+        2,
       )} added to seller's balance`,
     };
   } catch (error) {
@@ -284,7 +284,7 @@ export async function rejectEgift(egiftId: string, reason?: string) {
           rejectionReason: reason,
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     if (result.modifiedCount > 0) {
@@ -341,7 +341,7 @@ export async function bulkApproveEgifts(egiftIds: string[]) {
               soldAt: new Date(),
               updatedAt: new Date(),
             },
-          }
+          },
         );
 
         if (egiftResult.modifiedCount === 0) {
@@ -365,7 +365,7 @@ export async function bulkApproveEgifts(egiftIds: string[]) {
                 updatedAt: new Date(),
               },
               $unset: { soldAt: "" },
-            }
+            },
           );
           errors.push(`Seller not found for gift card ${egiftId}`);
           failCount++;
@@ -382,7 +382,7 @@ export async function bulkApproveEgifts(egiftIds: string[]) {
             $set: {
               updatedAt: new Date(),
             },
-          }
+          },
         );
 
         if (userResult.matchedCount === 0) {
@@ -395,7 +395,7 @@ export async function bulkApproveEgifts(egiftIds: string[]) {
                 updatedAt: new Date(),
               },
               $unset: { soldAt: "" },
-            }
+            },
           );
           errors.push(`Cannot update seller balance for gift card ${egiftId}`);
           failCount++;
@@ -449,7 +449,7 @@ export async function bulkRejectEgifts(egiftIds: string[], reason?: string) {
           rejectionReason: reason,
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     return {
@@ -460,6 +460,74 @@ export async function bulkRejectEgifts(egiftIds: string[], reason?: string) {
   } catch (error) {
     console.error("Failed to bulk reject egifts", error);
     return { success: false, error: "Error bulk rejecting gift cards" };
+  }
+}
+
+// User: Delist all my pending egifts
+export async function delistAllMyEgifts() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user) {
+      return { success: false, error: "Unauthorized" };
+    }
+
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const egiftsCollection = db.collection("egifts");
+
+    // Only delist egifts that are currently pending
+    const result = await egiftsCollection.updateMany(
+      { sellerEmail: session.user.email, status: "pending" },
+      {
+        $set: {
+          status: "delisted",
+          delistedAt: new Date(),
+          updatedAt: new Date(),
+        },
+      },
+    );
+
+    return {
+      success: true,
+      message: `Successfully delisted ${result.modifiedCount} gift card(s)`,
+      count: result.modifiedCount,
+    };
+  } catch (error) {
+    console.error("Failed to delist egifts", error);
+    return { success: false, error: "Error delisting gift cards" };
+  }
+}
+
+// User: Get count of my pending egifts
+export async function getMyPendingEgiftsCount() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user) {
+      return { success: false, count: 0 };
+    }
+
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const count = await db
+      .collection("egifts")
+      .countDocuments({ sellerEmail: session.user.email, status: "pending" });
+
+    return { success: true, count };
+  } catch (error) {
+    console.error("Failed to count pending egifts", error);
+    return { success: false, count: 0 };
   }
 }
 

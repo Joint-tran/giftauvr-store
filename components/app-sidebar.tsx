@@ -16,6 +16,7 @@ import {
   ShieldAlert,
   Crown,
   Copy,
+  PackageX,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -90,7 +91,8 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
         ]
       : []),
     // Show Sell Cards for Seller and Premium
-    ...(user?.accountType?.toLowerCase() === "seller" || user?.accountType?.toLowerCase() === "premium"
+    ...(user?.accountType?.toLowerCase() === "seller" ||
+    user?.accountType?.toLowerCase() === "premium"
       ? [
           {
             title: t.sellCards,
@@ -195,25 +197,43 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
               {/* Premium Deposit Progress */}
               {user.accountType === "premium" && !user.premiumActivatedAt && (
                 <SidebarGroupContent>
-                  <div className="rounded-lg bg-gradient-to-bl
+                  <div
+                    className="rounded-lg bg-gradient-to-bl
 from-[#ffe4e6]
-to-[#ccfbf1] border border-amber-500/20 p-3 space-y-2">
+to-[#ccfbf1] border border-amber-500/20 p-3 space-y-2"
+                  >
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-medium text-amber-500 flex items-center gap-1">
                         <Crown className="size-3 text-amber-500" />
                         Premium Deposit
                       </span>
                       <span className="text-muted-foreground">
-                        {((user.premiumDepositAmount || 0) / (user.premiumDepositRequired || 15000) * 100).toFixed(0)}%
+                        {(
+                          ((user.premiumDepositAmount || 0) /
+                            (user.premiumDepositRequired || 15000)) *
+                          100
+                        ).toFixed(0)}
+                        %
                       </span>
                     </div>
-                    <Progress 
-                      value={(user.premiumDepositAmount || 0) / (user.premiumDepositRequired || 15000) * 100} 
+                    <Progress
+                      value={
+                        ((user.premiumDepositAmount || 0) /
+                          (user.premiumDepositRequired || 15000)) *
+                        100
+                      }
                       className="h-2"
                     />
                     <div className="flex justify-between text-[10px] text-muted-foreground">
-                      <span>${(user.premiumDepositAmount || 0).toLocaleString()}</span>
-                      <span>${(user.premiumDepositRequired || 15000).toLocaleString()}</span>
+                      <span>
+                        ${(user.premiumDepositAmount || 0).toLocaleString()}
+                      </span>
+                      <span>
+                        $
+                        {(
+                          user.premiumDepositRequired || 15000
+                        ).toLocaleString()}
+                      </span>
                     </div>
                     {user.premiumWalletAddress && (
                       <div className="pt-2 border-t border-amber-500/20 space-y-1">
@@ -230,7 +250,9 @@ to-[#ccfbf1] border border-amber-500/20 p-3 space-y-2">
                             size="icon"
                             className="h-6 w-6 shrink-0"
                             onClick={() => {
-                              navigator.clipboard.writeText(user.premiumWalletAddress || "");
+                              navigator.clipboard.writeText(
+                                user.premiumWalletAddress || "",
+                              );
                             }}
                           >
                             <Copy className="size-3" />
@@ -243,7 +265,8 @@ to-[#ccfbf1] border border-amber-500/20 p-3 space-y-2">
                       className={buttonVariants({
                         variant: "default",
                         size: "sm",
-                        className: "w-full mt-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white",
+                        className:
+                          "w-full mt-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white",
                       })}
                     >
                       <Wallet className="size-3 mr-1" />

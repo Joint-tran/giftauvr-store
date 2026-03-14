@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Package, Clock, CheckCircle, XCircle } from "lucide-react";
+import { Package, Clock, CheckCircle, XCircle, PackageX } from "lucide-react";
 
 interface MyEgiftsListProps {
   egifts: any[];
@@ -24,6 +24,13 @@ export function MyEgiftsList({ egifts }: MyEgiftsListProps) {
           variant: "destructive" as const,
           icon: XCircle,
           color: "text-red-600",
+        };
+      case "delisted":
+        return {
+          label: "Delisted",
+          variant: "outline" as const,
+          icon: PackageX,
+          color: "text-gray-500",
         };
       default:
         return {

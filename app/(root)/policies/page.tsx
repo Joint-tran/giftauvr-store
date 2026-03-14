@@ -1,7 +1,7 @@
 import React from "react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { auth } from "@/lib/better-auth/auth";
-import { headers } from "next/headers";
+
 import {
   AlertCircle,
   Shield,
@@ -11,29 +11,19 @@ import {
   MessageCircle,
   ShieldAlert,
 } from "lucide-react";
+
 import Image from "next/image";
+
 import { getKycNoticeVisibility } from "@/lib/actions/settings.actions";
-import { connectToDatabase } from "@/database/mongoose";
 
 const PoliciesPage = async () => {
   const showKycNotice = await getKycNoticeVisibility();
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const mongoose = await connectToDatabase();
-  const db = mongoose.connection.db;
-  const dbUser =
-    session?.user?.email && db
-      ? await db.collection("user").findOne({ email: session.user.email })
-      : null;
-  const isPremium = dbUser?.accountType === "premium";
 
   return (
     <div className="flex flex-col gap-6 max-w-5xl mx-auto p-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Platform Policies</h1>
+
         <p className="text-muted-foreground mt-2">
           Important guidelines and policies for using our gift card marketplace
         </p>
@@ -41,6 +31,7 @@ const PoliciesPage = async () => {
 
       <div className="grid gap-6">
         {/* KYC Notice 2026 */}
+
         {showKycNotice && (
           <Card className="border-2 border-amber-500/50 bg-gradient-to-br from-amber-500/10 to-orange-500/10">
             <CardHeader>
@@ -49,65 +40,52 @@ const PoliciesPage = async () => {
                 Important KYC Notice - Effective 2026
               </CardTitle>
             </CardHeader>
+
             <CardContent className="space-y-4 text-sm">
               <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
                 <p className="font-semibold mb-3 text-amber-700 dark:text-amber-300">
-                  Enhanced KYC Requirements Due to Increased Fraudulent Transactions
+                  Enhanced KYC Requirements Due to Increased Fraudulent
+                  Transactions
                 </p>
+
                 <p className="text-muted-foreground mb-3">
-                  Starting from 2026, due to the significant increase in fraudulent transactions, 
-                  we have implemented stricter KYC (Know Your Customer) verification measures 
-                  to protect our platform and users.
+                  Starting from 2026, due to the significant increase in
+                  fraudulent transactions, we have implemented stricter KYC
+                  (Know Your Customer) verification measures to protect our
+                  platform and users.
                 </p>
+
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                   <li>
-                    <strong>Account Monitoring:</strong> All accounts are subject to enhanced 
-                    transaction monitoring and analysis.
+                    <strong>Account Monitoring:</strong> All accounts are
+                    subject to enhanced transaction monitoring and analysis.
                   </li>
+
                   <li>
-                    <strong>Suspicious Activity Reporting:</strong> If we detect any unusual 
-                    or suspicious transactions on your account, we reserve the right to share 
-                    relevant information with appropriate authorities and related parties.
+                    <strong>Suspicious Activity Reporting:</strong> If we detect
+                    any unusual or suspicious transactions on your account, we
+                    reserve the right to share relevant information with
+                    appropriate authorities and related parties.
                   </li>
+
                   <li>
-                    <strong>Legal Compliance:</strong> Please ensure that all your transactions 
-                    are legitimate and comply with applicable laws and regulations.
+                    <strong>Legal Compliance:</strong> Please ensure that all
+                    your transactions are legitimate and comply with applicable
+                    laws and regulations.
                   </li>
                 </ul>
               </div>
+
               <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                 <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
-                <p className="text-xs text-muted-foreground">
-                  <strong className="text-red-600 dark:text-red-400">Warning:</strong> By using 
-                  this platform, you confirm and guarantee that all your transactions are lawful. 
-                  Any violation may result in account termination and reporting to relevant authorities.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
-        {/* Premium Compliance Notice */}
-        {isPremium && (
-          <Card className="border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-teal-500/10">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300">
-                <ShieldAlert className="h-5 w-5" />
-                Premium Compliance Notice
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <p className="text-muted-foreground">
-                As a <strong>Premium</strong> seller, you may sell in larger volume.
-              </p>
-              <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
-                <p className="font-semibold mb-2 text-emerald-800 dark:text-emerald-200">
-                  Document Requirements
-                </p>
-                <p className="text-muted-foreground">
-                  You must be able to provide complete identification and supporting documents
-                  upon request, especially for large-volume selling, in case law enforcement
-                  or relevant authorities require verification.
+                <p className="text-xs text-muted-foreground">
+                  <strong className="text-red-600 dark:text-red-400">
+                    Warning:
+                  </strong>{" "}
+                  By using this platform, you confirm and guarantee that all
+                  your transactions are lawful. Any violation may result in
+                  account termination and reporting to relevant authorities.
                 </p>
               </div>
             </CardContent>
@@ -115,6 +93,7 @@ const PoliciesPage = async () => {
         )}
 
         {/* Terms of Service */}
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -122,22 +101,32 @@ const PoliciesPage = async () => {
               Terms of Service
             </CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-4 text-sm">
             <div>
               <h3 className="font-semibold mb-2">Account Requirements</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>Users must be 18 years or older to use this platform</li>
+
                 <li>All accounts require verification before trading</li>
+
                 <li>One account per user is allowed</li>
+
                 <li>Account sharing is strictly prohibited</li>
               </ul>
             </div>
+
             <div>
               <h3 className="font-semibold mb-2">User Responsibilities</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>Provide accurate and complete information</li>
+
                 <li>Maintain the security of your account credentials</li>
+
                 <li>Notify us immediately of any unauthorized access</li>
+
                 <li>Comply with all applicable laws and regulations</li>
               </ul>
             </div>
@@ -145,6 +134,7 @@ const PoliciesPage = async () => {
         </Card>
 
         {/* Transaction Policy */}
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -152,28 +142,40 @@ const PoliciesPage = async () => {
               Transaction Policy
             </CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-4 text-sm">
             <div>
               <h3 className="font-semibold mb-2">For Sellers</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>Gift cards must be valid and have not been used</li>
+
                 <li>Provide accurate card value and expiry information</li>
+
                 <li>Selling stolen or fraudulent cards is prohibited</li>
+
                 <li>Funds are added to balance after admin approval</li>
+
                 <li>
                   <strong>Minimum payout request: $2,000 USD</strong>
                 </li>
+
                 <li>
                   <strong>Only 1 payout allowed per calendar month</strong>
                 </li>
               </ul>
             </div>
+
             <div>
               <h3 className="font-semibold mb-2">For Buyers</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>All purchases are final and non-refundable</li>
+
                 <li>Verify card details immediately after purchase</li>
+
                 <li>Report any issues within 24 hours of purchase</li>
+
                 <li>Cards are sold &quot;as-is&quot; without warranty</li>
               </ul>
             </div>
@@ -181,6 +183,7 @@ const PoliciesPage = async () => {
         </Card>
 
         {/* Payment & Payout Policy */}
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -188,29 +191,40 @@ const PoliciesPage = async () => {
               Payment & Payout Policy
             </CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-4 text-sm">
             <div>
               <h3 className="font-semibold mb-2">Payouts</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>Payouts are processed in USDT (TRC20/ERC20/BEP20)</li>
+
                 <li>Processing time: 24-48 hours after request</li>
+
                 <li>
                   You must set up your wallet address before requesting payout
                 </li>
+
                 <li>
                   <strong>Minimum payout amount: $2,000 USD</strong>
                 </li>
+
                 <li>
                   <strong>Only 1 payout request allowed per month</strong>
                 </li>
+
                 <li>Payout fees may apply depending on network</li>
               </ul>
             </div>
+
             <div>
               <h3 className="font-semibold mb-2">Balance</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>Balance is updated instantly after admin approval</li>
+
                 <li>Balance can only be withdrawn via payout request</li>
+
                 <li>No cash refunds or transfers between accounts</li>
               </ul>
             </div>
@@ -218,6 +232,7 @@ const PoliciesPage = async () => {
         </Card>
 
         {/* Prohibited Activities */}
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -225,20 +240,27 @@ const PoliciesPage = async () => {
               Prohibited Activities
             </CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-4 text-sm">
             <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
               <p className="font-semibold mb-2 text-destructive">
                 The following activities will result in immediate account
                 termination:
               </p>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>
                   Selling stolen, hacked, or fraudulently obtained gift cards
                 </li>
+
                 <li>Using multiple accounts to manipulate the system</li>
+
                 <li>Attempting to defraud other users or the platform</li>
+
                 <li>Providing false information or documentation</li>
+
                 <li>Harassing or threatening other users or staff</li>
+
                 <li>Attempting to circumvent security measures</li>
               </ul>
             </div>
@@ -246,6 +268,7 @@ const PoliciesPage = async () => {
         </Card>
 
         {/* Privacy & Security */}
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -253,28 +276,39 @@ const PoliciesPage = async () => {
               Privacy & Security
             </CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-4 text-sm">
             <div>
               <h3 className="font-semibold mb-2">Data Protection</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>We collect only essential information for transactions</li>
+
                 <li>Your personal data is encrypted and stored securely</li>
+
                 <li>We never share your information with third parties</li>
+
                 <li>You can request data deletion at any time</li>
               </ul>
             </div>
+
             <div>
               <h3 className="font-semibold mb-2">Security Measures</h3>
+
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                 <li>All transactions are monitored for suspicious activity</li>
+
                 <li>Admin reviews all gift card submissions</li>
+
                 <li>Wallet addresses are masked for security</li>
+
                 <li>
                   <strong>
                     Wallet address and network can only be set once and cannot
                     be changed
                   </strong>
                 </li>
+
                 <li>Two-factor authentication available (coming soon)</li>
               </ul>
             </div>
@@ -282,6 +316,7 @@ const PoliciesPage = async () => {
         </Card>
 
         {/* Contact Support */}
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -289,6 +324,7 @@ const PoliciesPage = async () => {
               Contact Support
             </CardTitle>
           </CardHeader>
+
           <CardContent className="space-y-6">
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
@@ -297,13 +333,16 @@ const PoliciesPage = async () => {
               </p>
 
               {/* Signal Contact Section */}
+
               <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-2 border-blue-500/20 rounded-xl p-6 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="bg-blue-500/20 p-3 rounded-lg">
                     <MessageCircle className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
+
                   <div>
                     <h3 className="font-bold text-lg">Contact us on Signal</h3>
+
                     <p className="text-sm text-muted-foreground">
                       Secure & Private Messaging
                     </p>
@@ -311,6 +350,7 @@ const PoliciesPage = async () => {
                 </div>
 
                 {/* Signal Image */}
+
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden border-2 border-white/10 shadow-lg">
                   <Image
                     src="/assets/images/signal.jpg"
@@ -323,18 +363,23 @@ const PoliciesPage = async () => {
 
                 <div className="bg-white/50 dark:bg-black/30 rounded-lg p-4 space-y-2">
                   <p className="font-semibold text-sm">How to contact us:</p>
+
                   <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
                     <li>Install Signal app on your device</li>
+
                     <li>
                       Scan the QR code above or use the contact information
                     </li>
+
                     <li>Start a secure conversation with our support team</li>
+
                     <li>Describe your issue or question in detail</li>
                   </ol>
                 </div>
 
                 <div className="flex items-center gap-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
                   <AlertCircle className="h-4 w-4 text-yellow-600" />
+
                   <p className="text-xs text-muted-foreground">
                     <strong>Important:</strong> Only contact us through Signal
                     for your security. We will never ask for your password or
@@ -344,20 +389,26 @@ const PoliciesPage = async () => {
               </div>
 
               {/* Dispute Resolution */}
+
               <div className="bg-muted/50 border rounded-lg p-4 space-y-3">
                 <p className="font-semibold text-sm">
                   Dispute Resolution Process:
                 </p>
+
                 <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
                   <li>
                     Report the issue via Signal within 24 hours of the
                     transaction
                   </li>
+
                   <li>Provide all relevant evidence and documentation</li>
+
                   <li>Admin will review and investigate the claim</li>
+
                   <li>
                     Resolution will be communicated within 3-5 business days
                   </li>
+
                   <li>All disputes are handled through Signal for security</li>
                 </ol>
               </div>
@@ -366,8 +417,10 @@ const PoliciesPage = async () => {
         </Card>
 
         {/* Last Updated */}
+
         <div className="text-center text-sm text-muted-foreground">
           <p>Last updated: January 13, 2026</p>
+
           <p className="mt-2">
             We reserve the right to modify these policies at any time. Users
             will be notified of significant changes.
