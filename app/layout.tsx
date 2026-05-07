@@ -19,9 +19,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Giftauvr",
+  title: "Rumrk",
   description:
-    "Giftauvr is a gift card marketplace where you can buy and sell gift cards.",
+    "Rumrk is a gift card marketplace where you can buy and sell gift cards.",
 };
 
 export default function RootLayout({

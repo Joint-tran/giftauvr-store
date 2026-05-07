@@ -24,7 +24,7 @@ CRITICAL FORMATTING REQUIREMENTS:
 - Second sentence should add helpful context or reinforce the personalization
 
 Example personalized outputs (showing obvious customization with TWO sentences):
-<p class="mobile-text" style="margin: 0 0 30px 0; font-size: 16px; line-height: 1.6; color: #CCDADC;">Thanks for joining Giftauvr! As someone focused on <strong>selling and buying egift</strong>, you'll love our real-time alerts for egifts like the ones you're tracking. We'll help you spot opportunities</p>
+<p class="mobile-text" style="margin: 0 0 30px 0; font-size: 16px; line-height: 1.6; color: #CCDADC;">Thanks for joining Rumrk! As someone focused on <strong>selling and buying egift</strong>, you'll love our real-time alerts for egifts like the ones you're tracking. We'll help you spot opportunities</p>
 
 <p class="mobile-text" style="margin: 0 0 30px 0; font-size: 16px; line-height: 1.6; color: #CCDADC;">Great to have you aboard! Perfect for your <strong>conservative retirement strategy</strong> — we'll help you monitor dividend egifts without overwhelming you with noise. You can finally track your portfolio progress with confidence and clarity.</p>
 

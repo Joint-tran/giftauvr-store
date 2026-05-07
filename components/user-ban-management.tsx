@@ -32,7 +32,7 @@ export function UserBanManagement({
   const [open, setOpen] = useState(false);
   const [banReason, setBanReason] = useState("");
   const [banContactEmail, setBanContactEmail] = useState(
-    "support@giftauvr.com"
+    "support@rumrk.shop"
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -138,7 +138,7 @@ export function UserBanManagement({
             <Input
               id="banContactEmail"
               type="email"
-              placeholder="support@giftauvr.com"
+              placeholder="support@rumrk.shop"
               value={banContactEmail}
               onChange={(e) => setBanContactEmail(e.target.value)}
             />

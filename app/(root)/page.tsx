@@ -5,7 +5,7 @@ const HomePage = () => {
     <div className="flex flex-col gap-6">
       <div>
         <h2 className="text-2xl font-bold tracking-tight">
-          Welcome to Giftauvr
+          Welcome to Rumrk
         </h2>
         <p className="text-muted-foreground">
           Your trusted gift card marketplace for buying and selling gift cards

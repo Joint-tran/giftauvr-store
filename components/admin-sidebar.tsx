@@ -10,6 +10,7 @@ import {
   Wallet,
   ShoppingBag,
   ArrowDownToLine,
+  History as HistoryIcon,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -71,6 +72,11 @@ export function AdminSidebar() {
       icon: ArrowDownToLine,
     },
     {
+      title: "Payout History",
+      url: "/admin/payout-history",
+      icon: HistoryIcon,
+    },
+    {
       title: "Settings",
       url: "/admin/settings",
       icon: Settings,
@@ -86,12 +92,12 @@ export function AdminSidebar() {
               src={"/logo.svg"}
               width={100}
               height={100}
-              alt="Giftauvr Logo"
+              alt="Rumrk Logo"
               className="size-8"
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">Giftauvr Admin</span>
+            <span className="text-sm font-semibold">Rumrk Admin</span>
             <span className="text-sidebar-foreground/70 text-xs">
               Admin Panel
             </span>

@@ -64,7 +64,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
             <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 flex h-14 shrink-0 items-center gap-2 border-b px-4 backdrop-blur">
               <SidebarTrigger className="-ml-1" />
               <div className="flex flex-1 items-center gap-2">
-                <h1 className="text-lg font-semibold">Giftauvr</h1>
+                <h1 className="text-lg font-semibold">Rumrk</h1>
               </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>

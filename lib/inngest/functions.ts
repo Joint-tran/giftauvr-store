@@ -39,7 +39,7 @@ export const sendSignUpEmail = inngest.createFunction(
       const part = response.candidates?.[0]?.content?.parts?.[0];
       const introText =
         (part && "text" in part ? part.text : null) ||
-        "Thanks for joining Giftauvr! You now have the marketplace at your fingertips.";
+        "Thanks for joining Rumrk! You now have the marketplace at your fingertips.";
       const {
         data: { email, name },
       } = event;

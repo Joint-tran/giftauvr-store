@@ -133,12 +133,12 @@ export function AppSidebar({ user }: { user: SidebarUser | null }) {
               src={"/logo.svg"}
               width={100}
               height={100}
-              alt="Giftauvr Logo"
+              alt="Rumrk Logo"
               className="size-8"
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">Giftauvr</span>
+            <span className="text-sm font-semibold">Rumrk</span>
             <span className="text-sidebar-foreground/70 text-xs">
               Gift Card Marketplace
             </span>

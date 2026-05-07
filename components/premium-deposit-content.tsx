@@ -197,7 +197,7 @@ export function PremiumDepositContent({
               Need help with your deposit? Contact our support team.
             </p>
             <Button variant="outline" asChild>
-              <a href="mailto:support@giftauvr.com">
+              <a href="mailto:support@rumrk.shop">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Contact Support
               </a>

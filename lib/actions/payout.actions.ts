@@ -57,7 +57,7 @@ export async function submitPayoutRequest(data: {
       0,
       23,
       59,
-      59
+      59,
     );
 
     const existingPayoutThisMonth = await payoutsCollection.findOne({
@@ -90,7 +90,7 @@ export async function submitPayoutRequest(data: {
       {
         $inc: { balance: -data.amount },
         $set: { updatedAt: new Date() },
-      }
+      },
     );
 
     if (balanceResult.modifiedCount === 0) {
@@ -180,10 +180,99 @@ export async function getAllPendingPayouts() {
   }
 }
 
+// Admin: Get all users (for user picker)
+export async function getAllUsersForPicker() {
+  try {
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const users = await db
+      .collection("user")
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            email: 1,
+            fullName: 1,
+            name: 1,
+            accountType: 1,
+          },
+        },
+      )
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(users)),
+    };
+  } catch (error) {
+    console.error("Failed to fetch users", error);
+    return { success: false, data: [] };
+  }
+}
+
+// Admin: Add payout history for a user
+export async function adminAddPayoutHistory(data: {
+  userEmail: string;
+  amount: number;
+  walletAddress: string;
+  network: string;
+  date: string;
+  transactionHash?: string;
+}) {
+  try {
+    const mongoose = await connectToDatabase();
+    const db = mongoose.connection.db;
+
+    if (!db) throw new Error("Database connection failed");
+
+    const usersCollection = db.collection("user");
+    const payoutsCollection = db.collection("payouts");
+
+    // Find user
+    const user = await usersCollection.findOne({ email: data.userEmail });
+
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
+    const createdDate = new Date(data.date);
+
+    const payout = {
+      userId: user._id.toString(),
+      userEmail: user.email,
+      userName: user.fullName || user.name || user.email,
+      amount: data.amount,
+      walletAddress: data.walletAddress,
+      network: data.network,
+      status: "completed",
+      transactionHash: data.transactionHash || "",
+      notes: "Added by admin",
+      createdAt: createdDate,
+      completedAt: createdDate,
+      updatedAt: new Date(),
+    };
+
+    await payoutsCollection.insertOne(payout);
+
+    return {
+      success: true,
+      message: `Payout history of $${data.amount.toFixed(2)} added for ${user.email}`,
+    };
+  } catch (error) {
+    console.error("Failed to add payout history", error);
+    return { success: false, error: "Failed to add payout history" };
+  }
+}
+
 // Admin: Complete payout
 export async function completePayout(
   payoutId: string,
-  transactionHash: string
+  transactionHash: string,
 ) {
   try {
     const mongoose = await connectToDatabase();
@@ -202,7 +291,7 @@ export async function completePayout(
           completedAt: new Date(),
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     if (result.modifiedCount > 0) {
@@ -249,7 +338,7 @@ export async function rejectPayout(payoutId: string, reason?: string) {
       {
         $inc: { balance: payout.amount },
         $set: { updatedAt: new Date() },
-      }
+      },
     );
 
     // Update payout status
@@ -261,7 +350,7 @@ export async function rejectPayout(payoutId: string, reason?: string) {
           rejectionReason: reason || "Request rejected by admin",
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     if (result.modifiedCount > 0) {

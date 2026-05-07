@@ -23,10 +23,10 @@ export const sendWelcomeEmail = async ({
   );
 
   const mailOptions = {
-    from: `"Giftauvr" <giftauvr@gmail.com>`,
+    from: `"Rumrk" <support@rumrk.shop>`,
     to: email,
-    subject: `Welcome to Giftauvr - your gift card marketplace is ready!`,
-    text: "Thanks for joining Giftauvr",
+    subject: `Welcome to Rumrk - your gift card marketplace is ready!`,
+    text: "Thanks for joining Rumrk",
     html: htmlTemplate,
   };
 
@@ -47,9 +47,9 @@ export const sendApprovalEmail = async ({
     .replace(/{{accountType}}/g, accountType);
 
   const mailOptions = {
-    from: `"Giftauvr" <giftauvr@gmail.com>`,
+    from: `"Rumrk" <support@rumrk.shop>`,
     to: email,
-    subject: `🎉 Your Giftauvr Account is Approved!`,
+    subject: `🎉 Your Rumrk Account is Approved!`,
     text: `Your ${accountType} account has been approved.`,
     html: htmlTemplate,
   };
@@ -75,9 +75,9 @@ export const sendRejectionEmail = async ({
   );
 
   const mailOptions = {
-    from: `"Giftauvr" <giftauvr@gmail.com>`,
+    from: `"Rumrk" <support@rumrk.shop>`,
     to: email,
-    subject: `Account Application Update - Giftauvr`,
+    subject: `Account Application Update - Rumrk`,
     text: `Your account application has been reviewed.`,
     html: htmlTemplate,
   };

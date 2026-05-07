@@ -2,7 +2,6 @@
 
 import { headers } from "next/headers";
 import { auth } from "../better-auth/auth";
-import { inngest } from "../inngest/client";
 
 export const signUpWithEmail = async ({
   email,
@@ -28,20 +27,6 @@ export const signUpWithEmail = async ({
         balance: 0,
       } as any,
     });
-
-    if (response) {
-      await inngest.send({
-        name: "app/user.created",
-        data: {
-          email,
-          name: fullName,
-          country,
-          accountType,
-          network,
-          usdtWallet,
-        },
-      });
-    }
 
     return { success: true, data: response };
   } catch (error) {

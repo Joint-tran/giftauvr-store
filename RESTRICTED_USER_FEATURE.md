@@ -12,7 +12,7 @@ Tính năng này cho phép admin khóa/mở khóa tài khoản người dùng. K
 
 - `isBanned` (boolean): Trạng thái khóa tài khoản
 - `banReason` (string): Lý do khóa tài khoản
-- `banContactEmail` (string): Email liên hệ hỗ trợ (mặc định: support@giftauvr.com)
+- `banContactEmail` (string): Email liên hệ hỗ trợ (mặc định: support@rumrk.shop)
 
 ### 2. Components
 
@@ -49,7 +49,7 @@ Khóa tài khoản user với lý do và email liên hệ.
 const result = await banUser(
   "user_id_123",
   "Vi phạm điều khoản sử dụng",
-  "support@giftauvr.com"
+  "support@rumrk.shop"
 );
 ```
 

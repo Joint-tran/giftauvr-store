@@ -19,14 +19,14 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
             height={32}
             className="h-8 w-auto"
           />
-          <h3 className="auth-title">Giftauvr</h3>
+          <h3 className="auth-title">Rumrk</h3>
         </Link>
         <div className="pb-6 lg:pb-8 flex-1">{children}</div>
       </section>
       <section className="auth-right-section">
         <div className="z-10 relative lg:mt-4 lg:mb-16">
           <blockquote className="auth-blockquote">
-            Giftauvr is a gift card marketplace where you can buy and sell gift
+            Rumrk is a gift card marketplace where you can buy and sell gift
             cards.
           </blockquote>
           <div className="flex items-center justify-between">

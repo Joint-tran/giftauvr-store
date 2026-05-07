@@ -227,7 +227,7 @@ export async function banUser(
         $set: {
           isBanned: true,
           banReason: banReason || "Terms of service violation",
-          banContactEmail: banContactEmail || "support@giftauvr.com",
+          banContactEmail: banContactEmail || "support@rumrk.shop",
           updatedAt: new Date(),
         },
       }

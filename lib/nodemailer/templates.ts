@@ -5,7 +5,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <meta name="x-apple-disable-message-reformatting">
-    <title>Welcome to Giftauvr</title>
+    <title>Welcome to Rumrk</title>
     <!--[if mso]>
     <noscript>
         <xml>
@@ -95,7 +95,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #000;">G</div>
-                                <span style="font-size: 24px; font-weight: 600; color: #10b981;">Giftauvr</span>
+                                <span style="font-size: 24px; font-weight: 600; color: #10b981;">Rumrk</span>
                             </div>
                         </td>
                     </tr>
@@ -106,7 +106,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             
                             <!-- Welcome Heading -->
                             <h1 class="mobile-title dark-text" style="margin: 0 0 30px 0; font-size: 28px; font-weight: 600; color: #10b981; line-height: 1.2;">
-                                Welcome to Giftauvr, {{name}}!
+                                Welcome to Rumrk, {{name}}!
                             </h1>
                             
                             <!-- Intro Text -->
@@ -143,10 +143,10 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             
                             <!-- Footer Text -->
                             <p class="mobile-text dark-text-muted" style="margin: 40px 0 0 0; font-size: 14px; line-height: 1.5; color: #6b7280; text-align: center;">
-                                Giftauvr - Your Trusted Gift Card Marketplace<br>
+                                Rumrk - Your Trusted Gift Card Marketplace<br>
                                 <a href="#" style="color: #10b981; text-decoration: underline;">Unsubscribe</a> | 
-                                <a href="http://localhost:3000" style="color: #10b981; text-decoration: underline;">Visit Giftauvr</a><br>
-                                © 2025 Giftauvr
+                                <a href="http://localhost:3000" style="color: #10b981; text-decoration: underline;">Visit Rumrk</a><br>
+                                © 2025 Rumrk
                             </p>
                         </td>
                     </tr>
@@ -163,7 +163,7 @@ export const ORDER_CONFIRMATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmed - Giftauvr</title>
+    <title>Order Confirmed - Rumrk</title>
     <style type="text/css">
         @media (prefers-color-scheme: dark) {
             .email-container { background-color: #141414 !important; border: 1px solid #30333A !important; }
@@ -190,7 +190,7 @@ export const ORDER_CONFIRMATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                         <td style="padding: 40px;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 30px;">
                                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #000;">G</div>
-                                <span style="font-size: 24px; font-weight: 600; color: #10b981;">Giftauvr</span>
+                                <span style="font-size: 24px; font-weight: 600; color: #10b981;">Rumrk</span>
                             </div>
                             
                             <div style="background-color: #059669; border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center;">
@@ -246,7 +246,7 @@ export const ORDER_CONFIRMATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             </table>
                             
                             <p style="margin: 40px 0 0 0; font-size: 14px; line-height: 1.5; color: #6b7280; text-align: center;">
-                                © 2025 Giftauvr - Gift Card Marketplace
+                                © 2025 Rumrk - Gift Card Marketplace
                             </p>
                         </td>
                     </tr>
@@ -262,7 +262,7 @@ export const SELLER_NOTIFICATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Order - Giftauvr</title>
+    <title>New Order - Rumrk</title>
     <style type="text/css">
         @media (prefers-color-scheme: dark) {
             .email-container { background-color: #141414 !important; border: 1px solid #30333A !important; }
@@ -285,7 +285,7 @@ export const SELLER_NOTIFICATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                         <td style="padding: 40px;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 30px;">
                                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #000;">G</div>
-                                <span style="font-size: 24px; font-weight: 600; color: #10b981;">Giftauvr</span>
+                                <span style="font-size: 24px; font-weight: 600; color: #10b981;">Rumrk</span>
                             </div>
                             
                             <div style="background-color: #7c3aed; border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center;">
@@ -342,7 +342,7 @@ export const SELLER_NOTIFICATION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             </table>
                             
                             <p style="margin: 40px 0 0 0; font-size: 14px; line-height: 1.5; color: #6b7280; text-align: center;">
-                                © 2025 Giftauvr - Gift Card Marketplace
+                                © 2025 Rumrk - Gift Card Marketplace
                             </p>
                         </td>
                     </tr>
@@ -359,7 +359,7 @@ export const APPROVAL_EMAIL_TEMPLATE = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Approved - Giftauvr</title>
+    <title>Account Approved - Rumrk</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #050505;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #050505; padding: 40px 20px;">
@@ -393,10 +393,10 @@ export const APPROVAL_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 Hi <strong>{{name}}</strong>,
                             </p>
                             <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: #9ca3af;">
-                                Great news! Your <strong style="color: #10b981;">{{accountType}}</strong> account has been approved by our admin team. You now have full access to all Giftauvr features.
+                                Great news! Your <strong style="color: #10b981;">{{accountType}}</strong> account has been approved by our admin team. You now have full access to all Rumrk features.
                             </p>
                             <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #9ca3af;">
-                                You can now start buying and selling gift cards on our marketplace. Welcome to the Giftauvr community!
+                                You can now start buying and selling gift cards on our marketplace. Welcome to the Rumrk community!
                             </p>
                         </td>
                     </tr>
@@ -404,7 +404,7 @@ export const APPROVAL_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- CTA Button -->
                     <tr>
                         <td style="padding: 0 40px 40px; text-align: center;">
-                            <a href="https://giftauvr.com/" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s;">
+                            <a href="https://rumrk.shop/" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s;">
                                 Access Your Account →
                             </a>
                         </td>
@@ -414,7 +414,7 @@ export const APPROVAL_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <tr>
                         <td style="padding: 24px 40px; border-top: 1px solid #30333A; text-align: center;">
                             <p style="margin: 0 0 8px; font-size: 14px; color: #6b7280;">
-                                © 2024 Giftauvr. All rights reserved.
+                                © 2024 Rumrk. All rights reserved.
                             </p>
                             <p style="margin: 0; font-size: 12px; color: #6b7280;">
                                 Your trusted gift card marketplace
@@ -435,7 +435,7 @@ export const REJECTION_EMAIL_TEMPLATE = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Application Update - Giftauvr</title>
+    <title>Account Application Update - Rumrk</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #050505;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #050505; padding: 40px 20px;">
@@ -460,7 +460,7 @@ export const REJECTION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 Hi <strong>{{name}}</strong>,
                             </p>
                             <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: #9ca3af;">
-                                Thank you for your interest in joining Giftauvr. After careful review, we regret to inform you that we cannot approve your account application at this time.
+                                Thank you for your interest in joining Rumrk. After careful review, we regret to inform you that we cannot approve your account application at this time.
                             </p>
                             
                             <!-- Reason Box -->
@@ -482,7 +482,7 @@ export const REJECTION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- CTA Button -->
                     <tr>
                         <td style="padding: 0 40px 40px; text-align: center;">
-                            <a href="mailto:support@giftauvr.com" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s;">
+                            <a href="mailto:support@rumrk.shop" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s;">
                                 Contact Support
                             </a>
                         </td>
@@ -492,7 +492,7 @@ export const REJECTION_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <tr>
                         <td style="padding: 24px 40px; border-top: 1px solid #30333A; text-align: center;">
                             <p style="margin: 0 0 8px; font-size: 14px; color: #6b7280;">
-                                © 2024 Giftauvr. All rights reserved.
+                                © 2024 Rumrk. All rights reserved.
                             </p>
                             <p style="margin: 0; font-size: 12px; color: #6b7280;">
                                 Your trusted gift card marketplace

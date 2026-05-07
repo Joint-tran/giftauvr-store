@@ -80,7 +80,7 @@ export const getAuth = async () => {
         banContactEmail: {
           type: "string",
           required: false,
-          defaultValue: "support@giftauvr.com",
+          defaultValue: "support@rumrk.shop",
         },
       },
     },

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { type Locale, getTranslations } from "@/lib/localization";
 
-const LOCALE_STORAGE_KEY = "giftauvr_locale";
+const LOCALE_STORAGE_KEY = "rumrk_locale";
 
 export function useLocale() {
   // Always start with "en" to match SSR
